@@ -1,5 +1,7 @@
 # Godot import files
 
-*.stex
 *.md5
 *.import
+.import/
+export.cfg
+export_presets.cfg
