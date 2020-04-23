@@ -1,19 +1,194 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://scripts/gui/GUI.gd" type="Script" id=1]
+[ext_resource path="res://scripts/gui/MainMenu/GUI.gd" type="Script" id=1]
 [ext_resource path="res://scripts/Main.gd" type="Script" id=2]
 [ext_resource path="res://scripts/World.gd" type="Script" id=3]
+[ext_resource path="res://art/gui/theme/game_theme.tres" type="Theme" id=4]
+[ext_resource path="res://assets/fonts/Fontopo Neutral/fontopoNEUTRAL-Regular.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://scripts/gui/MainMenu/MenuOptions.gd" type="Script" id=6]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 1, 2 )
+colors = PoolColorArray( 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+width = 1024
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends TextureRect
+
+# Signals
+
+# Variables
+export var cycleSpeed : float
+var grad : Gradient
+var offsets : PoolRealArray
+var iter : Array
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	grad = texture.gradient
+	offsets = grad.get_offsets()
+	iter = range(0, offsets.size())
+	var colors = settings.get_colors()
+	for i in iter:
+		grad.set_color(i % offsets.size(), colors[i % colors.size()])
+
+# Animate the background
+func _process(delta: float) -> void:
+	var distance := delta * cycleSpeed
+	var firstOffset := offsets[0]
+	if firstOffset - distance < -1.0:
+		var colors := grad.get_colors()
+		colors.append(colors[1])
+		colors.remove(0)
+		offsets.append(offsets[-1] + 1.0)
+		offsets.remove(0)
+		grad.set_colors(colors)
+	for i in iter:
+		offsets[i] -= distance
+	grad.set_offsets(offsets)
+"
+
+[sub_resource type="DynamicFont" id=4]
+size = 120
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 5 )
+
+[sub_resource type="StyleBoxLine" id=5]
+color = Color( 0, 0, 0, 0 )
 
 [node name="MainMenu" type="Node"]
 script = ExtResource( 2 )
 
+[node name="Background" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 2 )
+expand = true
+script = SubResource( 3 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+cycleSpeed = 0.5
+
 [node name="World" type="Node2D" parent="."]
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="GUI" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource( 4 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Menu" type="VBoxContainer" parent="GUI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 120.0
+margin_top = 80.0
+margin_right = -120.0
+margin_bottom = -80.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="GUI/Menu"]
+margin_right = 1040.0
+margin_bottom = 121.0
+grow_horizontal = 2
+rect_pivot_offset = Vector2( 47.5, 0 )
+size_flags_horizontal = 3
+theme = ExtResource( 4 )
+custom_fonts/font = SubResource( 4 )
+text = "HRM-Game"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Separator" type="HSeparator" parent="GUI/Menu"]
+show_behind_parent = true
+margin_top = 125.0
+margin_right = 1040.0
+margin_bottom = 412.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 128.0
+custom_styles/separator = SubResource( 5 )
+
+[node name="MenuOptions" type="VBoxContainer" parent="GUI/Menu"]
+margin_top = 416.0
+margin_right = 1040.0
+margin_bottom = 560.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 64.0
+alignment = 1
+script = ExtResource( 6 )
+
+[node name="Scan" type="Button" parent="GUI/Menu/MenuOptions" groups=[
+"buttons",
+]]
+margin_left = 450.0
+margin_right = 590.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 140, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 3
+size_flags_stretch_ratio = 95.68
+text = "Select MiBand"
+
+[node name="Start" type="Button" parent="GUI/Menu/MenuOptions" groups=[
+"buttons",
+]]
+visible = false
+margin_left = 450.0
+margin_top = 37.0
+margin_right = 590.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 140, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 3
+size_flags_stretch_ratio = 95.68
+text = "Start Tutorial"
+
+[node name="Settings" type="Button" parent="GUI/Menu/MenuOptions" groups=[
+"buttons",
+]]
+margin_left = 460.0
+margin_top = 49.0
+margin_right = 580.0
+margin_bottom = 94.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 3
+size_flags_stretch_ratio = 95.68
+text = "Settings"
+
+[node name="Quit" type="Button" parent="GUI/Menu/MenuOptions" groups=[
+"buttons",
+]]
+margin_left = 460.0
+margin_top = 98.0
+margin_right = 580.0
+margin_bottom = 144.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 3
+size_flags_stretch_ratio = 95.68
+text = "Quit Game"
+[connection signal="pressed" from="GUI/Menu/MenuOptions/Quit" to="GUI/Menu/MenuOptions" method="_on_quit_pressed"]
