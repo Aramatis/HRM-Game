@@ -29,8 +29,6 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-lowColor = Color( 0, 0, 1, 1 )
-highColor = Color( 1, 0, 0, 1 )
 inputSampleDelay = 0.15
 
 [node name="GradSprite" type="TextureRect" parent="."]

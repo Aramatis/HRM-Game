@@ -1,6 +1,8 @@
-[gd_resource type="Theme" load_steps=5 format=2]
+[gd_resource type="Theme" load_steps=7 format=2]
 
 [ext_resource path="res://art/gui/theme/fonts/Default.tres" type="DynamicFont" id=1]
+[ext_resource path="res://art/gui/theme/fonts/MenuPanelTitle.tres" type="DynamicFont" id=2]
+[ext_resource path="res://art/gui/theme/fonts/MainTitle.tres" type="DynamicFont" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 1, 1, 1, 0 )
@@ -44,5 +46,7 @@ Label/constants/line_spacing = 3
 Label/constants/shadow_as_outline = 0
 Label/constants/shadow_offset_x = 1
 Label/constants/shadow_offset_y = 1
-Label/fonts/font = null
+Label/fonts/MainTitleFont = ExtResource( 3 )
+Label/fonts/PanelTitleFont = ExtResource( 2 )
+Label/fonts/SubtitleFont = ExtResource( 2 )
 Label/styles/normal = null

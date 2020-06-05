@@ -1,19 +1,37 @@
 extends Control
 
-# Signals
+
+###### Signals ######
+
+# Thrown when a rise in valence is indicated
 signal valence_up
+# Thrown when a drop in valence is indicated
 signal valence_down
 
-# Variables
-export var lowColor : Color setget change_lower_color
-export var highColor : Color setget change_higher_color
+
+###### Variables ######
+
+# Color that represents low valence
+var lowColor : Color setget change_lower_color
+# Color that represents high valence
+var highColor : Color setget change_higher_color
+# True if this affective slider is in vertical position
 export var vertical = false setget set_vertical
+# Time to wait between inputs to be valid
 export var inputSampleDelay : float
+# Accumulated time between inputs
 var accDelta : float
+# Gradient of this slider
 var grad : Gradient
+# Light mask for the vertical position
 var vLight : Light2D
+# Light mask for the horizontal position
 var hLight : Light2D
+# Internal slider for the current valence of the user
 var slider : Slider
+
+
+###### Functions ######
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -22,7 +40,13 @@ func _ready() -> void:
 	slider = $Slider
 	hLight = $GradSprite/HLight
 	vLight = $GradSprite/VLight
-	_apply_colors()
+	settings.request_color_updates(self, "update_colors")
+	update_colors()
+
+# Updates the colors according to the current colors in settings
+func update_colors() -> void:
+	var newColors = settings.get_colors()
+	change_colors(newColors[0], newColors[1])
 
 # Apply the currently selected colors
 func _apply_colors() -> void:
@@ -63,7 +87,7 @@ func set_vertical(vert : bool) -> void:
 			hLight.set_enabled(true)
 		vertical = vert
 
-# Override from native function to allow for positioning by center
+# Override from native function to allow for positioning by center point
 func set_position(pos : Vector2, center := true) -> void:
 	if center:
 		var current_size = get_size()
