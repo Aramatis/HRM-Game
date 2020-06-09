@@ -1,40 +1,44 @@
 extends VBoxContainer
 
-
-###### Signals ######
+# * Signals
 
 # Thrown when the settings menu button is pressed
-signal showSettings
+signal settings_pressed
 # Thrown when the scan for miband button is pressd
-signal showScan
+signal scan_pressed
 # Thrown when the start game button is pressed
-signal startGame
+signal start_pressed
 # Thrown when the quit button is pressed
-signal quitGame
+signal quit_pressed
 
+# * Functions
 
-###### Functions ######
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
 
+
 # Gives focus to buttons when requested
-func _on_button_hovered(btn : Button) -> void:
+func _on_button_hovered(btn: Button) -> void:
 	btn.grab_focus()
+
 
 # Sends a signal to start a scan for MiBand devices
 func _on_scan_pressed() -> void:
-	emit_signal("showScan")
+	emit_signal("scan_pressed")
+
 
 # Start the game
 func _on_start_pressed() -> void:
-	emit_signal("startGame")
+	emit_signal("start_pressed")
+
 
 # Show the settings
 func _on_settings_pressed() -> void:
-	emit_signal("showSettings")
+	emit_signal("settings_pressed")
+
 
 # Quit the game
 func _on_quit_pressed() -> void:
-	emit_signal("quitGame")
+	emit_signal("quit_pressed")

@@ -1,8 +1,8 @@
 [gd_resource type="Theme" load_steps=7 format=2]
 
-[ext_resource path="res://art/gui/theme/fonts/Default.tres" type="DynamicFont" id=1]
-[ext_resource path="res://art/gui/theme/fonts/MenuPanelTitle.tres" type="DynamicFont" id=2]
-[ext_resource path="res://art/gui/theme/fonts/MainTitle.tres" type="DynamicFont" id=3]
+[ext_resource path="res://art/gui/theme/fonts/default.tres" type="DynamicFont" id=1]
+[ext_resource path="res://art/gui/theme/fonts/menu_panel_title.tres" type="DynamicFont" id=2]
+[ext_resource path="res://art/gui/theme/fonts/main_title.tres" type="DynamicFont" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 1, 1, 1, 0 )

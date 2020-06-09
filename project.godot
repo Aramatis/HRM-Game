@@ -8,15 +8,20 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Node",
+"class": "Settings",
+"language": "GDScript",
+"path": "res://scripts/autoload/settings.gd"
+} ]
 _global_script_class_icons={
-
+"Settings": ""
 }
 
 [application]
 
 config/name="HRM Game"
-run/main_scene="res://scenes/MainMenu.tscn"
+run/main_scene="res://scenes/main_menu.tscn"
 boot_splash/bg_color=Color( 0.141176, 0.141176, 0.141176, 1 )
 config/icon="res://art/icon/icon.png"
 
@@ -27,6 +32,9 @@ settings="*res://scripts/autoload/settings.gd"
 [debug]
 
 gdscript/completion/autocomplete_setters_and_getters=true
+gdscript/warnings/return_value_discarded=false
+gdscript/warnings/unsafe_cast=true
+gdscript/warnings/unsafe_call_argument=true
 
 [display]
 
