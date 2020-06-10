@@ -21,6 +21,7 @@ width = 1024
 script = ExtResource( 4 )
 
 [node name="Background" type="TextureRect" parent="."]
+light_mask = 4
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = SubResource( 2 )
