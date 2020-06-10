@@ -19,6 +19,16 @@ func _ready() -> void:
 	pass
 
 
+# Hides the scan button
+func hide_scan() -> void:
+	$Scan.hide()
+
+
+# Shows the start button
+func show_start() -> void:
+	$Start.show()
+
+
 # Gives focus to buttons when requested
 func _on_button_hovered(btn: Button) -> void:
 	btn.grab_focus()

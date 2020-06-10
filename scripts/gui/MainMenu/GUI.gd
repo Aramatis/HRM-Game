@@ -23,6 +23,8 @@ var _panel: NinePatchRect
 var _menu_margins: Array
 # The non-panel gui nodes
 var _non_panel_nodes: Array
+# The scan gui node
+var _scan_gui: Control
 
 # * Functions
 
@@ -31,17 +33,32 @@ var _non_panel_nodes: Array
 func _ready() -> void:
 	# Sets the focus to the scan button by default
 	$Menu/MenuOptions/Scan.grab_focus()
+	_scan_gui = $Menu/ScanGui
 	_panel = $Menu/Separator
 	_non_panel_nodes = $Menu.get_children()
 	_non_panel_nodes.erase(_panel)
+	_non_panel_nodes.erase(_scan_gui)
 	_menu_margins = []
 	_save_margins()
+
+
+# When a device is ready, hides the scan and shows the start game button
+func _prepare_start() -> void:
+	print("On prepare start")
+	_clean_panel()
+	$Menu/MenuOptions.hide_scan()
+	$Menu/MenuOptions.show_start()
 
 
 # Removes all the children added to the panel
 # contents and hides the panel
 func _clean_panel() -> void:
 	var content_container = _panel.get_child(0)
+	if _scan_gui.visible:
+		if content_container.is_a_parent_of(_scan_gui):
+			content_container.remove_child(_scan_gui)
+			$Menu.add_child(_scan_gui)
+		_scan_gui.hide()
 	for child in content_container.get_children():
 		content_container.remove_child(child)
 		child.queue_free()
@@ -90,8 +107,12 @@ func _show_panel() -> void:
 
 # Shows the scan dialog
 func _show_scan() -> void:
-	# TODO: Implement 
-	pass
+	var content_container = _panel.get_child(0)
+	if not content_container.is_a_parent_of(_scan_gui):
+		$Menu.remove_child(_scan_gui)
+		content_container.add_child(_scan_gui)
+	_scan_gui.show()
+	_scan_gui.start_scan()
 
 
 # Shows the settings menu
@@ -100,6 +121,7 @@ func _show_settings() -> void:
 	var menu = settings.get_settings_menu()
 	# Hide non-panel nodes
 	_hide_extras()
+	_clean_panel()
 	_load_margins([20, 20, -20, -20])
 	_add_content(menu)
 	# Show the settings in the panel
@@ -122,4 +144,5 @@ func _start_game() -> void:
 
 # Sends a signal to exit the game
 func _quit_game() -> void:
+	heart_connector.exit_gracefully()
 	emit_signal("exit_requested")
