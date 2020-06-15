@@ -1,9 +1,6 @@
 extends Button
 
-# * Signals
-
-# Thrown when the button is hovered, with itself as btn
-signal hovered(btn)
+class_name SelfFocusingButton
 
 # * Functions
 
@@ -13,6 +10,7 @@ func _ready() -> void:
 	self.connect("mouse_entered", self, "ask_focus")
 
 
-# When this button is hovered, asks to be focused
+# When this button is hovered and isn't disabled, grabs the focus
 func ask_focus() -> void:
-	emit_signal("hovered", self)
+	if ! disabled:
+		grab_focus()

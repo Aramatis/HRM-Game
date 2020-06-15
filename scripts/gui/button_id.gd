@@ -1,6 +1,6 @@
-extends Button
+extends SelfFocusingButton
 
-class_name Button_Id
+class_name ButtonId
 
 # * Signals
 # Thrown when the button is pressed
@@ -8,12 +8,9 @@ signal pressed_id(id)
 
 # * Variables
 # Id of the button
-export var id: int setget set_id, get_id
+export (int) var id: int setget set_id, get_id
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	id = 0
+# * Functions
 
 
 # Returns the id saved

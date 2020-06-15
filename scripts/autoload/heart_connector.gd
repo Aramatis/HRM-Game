@@ -1,6 +1,6 @@
 extends Node
 
-class_name Heart_Connector
+class_name HeartConnector
 
 # * Signals
 # Thrown when correctly connected to a device

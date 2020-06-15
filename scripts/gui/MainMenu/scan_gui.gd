@@ -6,7 +6,7 @@ signal device_ready
 
 # * Constants
 # Button with id scene
-const Button_Id = preload("res://scenes/gui/button_id.tscn")
+const ButtonId = preload("res://scenes/gui/button_id.tscn")
 
 # * Variables
 # Clock message while scanning for devices
@@ -77,7 +77,7 @@ func _add_device(dev) -> void:
 
 # Creates a button fron the received data
 func _create_device_button(data: Dictionary) -> Node:
-	var button = Button_Id.instance()
+	var button = ButtonId.instance()
 	button.set_text("MiBand 3: %s" % data["uuid"])
 	button.set_id(data["id"])
 	return button
