@@ -2,10 +2,10 @@ extends Control
 
 # * Signals
 
+# Thrown to request exit from the game
+signal exit_requested
 # Thrown to request start of the game
 signal start_requested
-# Thrown to request exit from the game 
-signal exit_requested
 
 # * Constants
 
@@ -17,12 +17,12 @@ const PanelTexture: StreamTexture = preload("res://assets/textures/panel.png")
 
 # * Variables
 
-# The panel node
-var _panel: NinePatchRect
 # The margins on the menu, to be restored after displaying the settings
 var _menu_margins: Array
 # The non-panel gui nodes
 var _non_panel_nodes: Array
+# The panel node
+var _panel: NinePatchRect
 # The scan gui node
 var _scan_gui: Control
 
@@ -42,12 +42,10 @@ func _ready() -> void:
 	_save_margins()
 
 
-# When a device is ready, hides the scan and shows the start game button
-func _prepare_start() -> void:
-	print("On prepare start")
-	_clean_panel()
-	$Menu/MenuOptions.hide_scan()
-	$Menu/MenuOptions.show_start()
+# Adds the given content to the panel
+func _add_content(content: Node) -> void:
+	var content_container = _panel.get_child(0)
+	content_container.add_child(content)
 
 
 # Removes all the children added to the panel
@@ -65,10 +63,22 @@ func _clean_panel() -> void:
 	_hide_panel()
 
 
-# Saves the current menu margins to a variable
-func _save_margins() -> void:
-	for margin in range(0, 4):
-		_menu_margins.append($Menu.get_margin(margin))
+# Hides the non-panel gui nodes
+func _hide_extras() -> void:
+	for node in _non_panel_nodes:
+		node.hide()
+
+
+# Hides the panel border
+func _hide_panel() -> void:
+	_panel.set_texture(HiddenTexture)
+
+
+# Hides the settings menu
+func _hide_settings() -> void:
+	_clean_panel()
+	_load_margins(_menu_margins)
+	_show_extras()
 
 
 # Loads the menu margins from a variable
@@ -77,32 +87,30 @@ func _load_margins(margins: Array) -> void:
 		$Menu.set_margin(margin, margins[margin])
 
 
-# Adds the given content to the panel
-func _add_content(content: Node) -> void:
-	var content_container = _panel.get_child(0)
-	content_container.add_child(content)
+# When a device is ready, hides the scan and shows the start game button
+func _prepare_start() -> void:
+	print("On prepare start")
+	_clean_panel()
+	$Menu/MenuOptions.hide_scan()
+	$Menu/MenuOptions.show_start()
 
 
-# Hides the non-panel gui nodes
-func _hide_extras() -> void:
-	for node in _non_panel_nodes:
-		node.hide()
+# Sends a signal to exit the game
+func _quit_game() -> void:
+	heart_connector.exit_gracefully()
+	emit_signal("exit_requested")
+
+
+# Saves the current menu margins to a variable
+func _save_margins() -> void:
+	for margin in range(0, 4):
+		_menu_margins.append($Menu.get_margin(margin))
 
 
 # Shows the non-panel gui nodes
 func _show_extras() -> void:
 	for node in _non_panel_nodes:
 		node.show()
-
-
-# Hides the panel border
-func _hide_panel() -> void:
-	_panel.set_texture(HiddenTexture)
-
-
-# Shows the panel border
-func _show_panel() -> void:
-	_panel.set_texture(PanelTexture)
 
 
 # Shows the scan dialog
@@ -113,6 +121,11 @@ func _show_scan() -> void:
 		content_container.add_child(_scan_gui)
 	_scan_gui.show()
 	_scan_gui.start_scan()
+
+
+# Shows the panel border
+func _show_panel() -> void:
+	_panel.set_texture(PanelTexture)
 
 
 # Shows the settings menu
@@ -130,19 +143,6 @@ func _show_settings() -> void:
 	_show_panel()
 
 
-# Hides the settings menu
-func _hide_settings() -> void:
-	_clean_panel()
-	_load_margins(_menu_margins)
-	_show_extras()
-
-
 # Sends a signal to start the game
 func _start_game() -> void:
 	emit_signal("start_requested")
-
-
-# Sends a signal to exit the game
-func _quit_game() -> void:
-	heart_connector.exit_gracefully()
-	emit_signal("exit_requested")

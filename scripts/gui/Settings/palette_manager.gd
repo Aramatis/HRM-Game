@@ -29,11 +29,11 @@ func load_palettes(palette_n: int, omit_signal := false) -> void:
 	$Palettes.set_palette(palette_n, omit_signal)
 
 
-# Sets the selected pallete variable
-func _set_selected(pal_n: int) -> void:
-	_selected_palette = pal_n
-
-
 # Sets the saved palette variable
 func _set_saved(pal_n: int) -> void:
 	_saved_palette = pal_n
+
+
+# Sets the selected pallete variable
+func _set_selected(pal_n: int) -> void:
+	_selected_palette = pal_n

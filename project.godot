@@ -122,6 +122,10 @@ ui_pause={
 2d_render/layer_8="world_standard"
 2d_render/layer_9="world_lower"
 
+[locale]
+
+locale_filter=[ 0, [ "en_CA", "es_CL" ] ]
+
 [rendering]
 
 quality/intended_usage/framebuffer_allocation=0

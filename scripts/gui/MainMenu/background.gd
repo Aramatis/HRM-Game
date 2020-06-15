@@ -6,10 +6,10 @@ extends TextureRect
 export var cycle_speed: float
 # The gradient node
 var _grad: Gradient
-# The gradient offsets
-var _offsets: PoolRealArray
 # Iteration array for the offsets and colors
 var _iter: Array
+# The gradient offsets
+var _offsets: PoolRealArray
 
 # * Functions
 
@@ -27,8 +27,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var distance: float = delta * cycle_speed
 	var _first_offset: float = _offsets[0]
-	# If the first offset goes below -1.0, 
-	# change the colors to make a fluid animation 
+	# If the first offset goes below -1.0,
+	# change the colors to make a fluid animation
 	if _first_offset - distance < -1.0:
 		var colors: PoolColorArray = _grad.get_colors()
 		colors.append(colors[1])

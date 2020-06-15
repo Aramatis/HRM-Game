@@ -30,13 +30,6 @@ func get_muted() -> bool:
 	return _muted
 
 
-# Restores the mute state to the setting saved in file
-func restore_saved() -> void:
-	# Toggle the state only if is different
-	if _muted != _saved_mute:
-		$Toggle.pressed = _saved_mute
-
-
 # Loads the saved mute setting and propagates it to the mute button
 func load_muted(saved_setting: bool, omit_signal := false) -> void:
 	_saved_mute = saved_setting
@@ -46,6 +39,13 @@ func load_muted(saved_setting: bool, omit_signal := false) -> void:
 	if _saved_mute:
 		$Toggle.pressed = true
 	_stop_signal = false
+
+
+# Restores the mute state to the setting saved in file
+func restore_saved() -> void:
+	# Toggle the state only if is different
+	if _muted != _saved_mute:
+		$Toggle.pressed = _saved_mute
 
 
 # Toggles the current mute setting state and signals the change

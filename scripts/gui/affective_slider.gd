@@ -2,29 +2,30 @@ extends Control
 
 # * Signals
 
-# Thrown when a rise in valence is indicated
-signal valence_increased
 # Thrown when a drop in valence is indicated
 signal valence_decreased
+# Thrown when a rise in valence is indicated
+signal valence_increased
 
 # * Variables
 
-# Color that represents low valence
-var _low_color: Color setget change_lower_color
-# Color that represents high valence
-var _high_color: Color setget change_higher_color
 # True if this affective slider is in vertical position
 export var vertical = false setget set_vertical
 # Time to wait between inputs to be valid
-export var _input_sample_delay: float
+export var input_sample_delay: float
 # Accumulated time between inputs
 var _acc_delta: float
+# Color that represents high valence
 # Gradient of this slider
 var _grad: Gradient
 # Light mask for the vertical position
-var _v_light: Light2D
+var _high_color: Color setget change_higher_color
+# Color that represents low valence
+var _low_color: Color setget change_lower_color
 # Light mask for the horizontal position
 var _h_light: Light2D
+# Light mask for the vertical position
+var _v_light: Light2D
 # Internal slider for the current valence of the user
 var _slider: Slider
 
@@ -45,7 +46,7 @@ func _ready() -> void:
 # Receives valence input
 func _process(delta: float) -> void:
 	_acc_delta += delta
-	if _acc_delta >= _input_sample_delay:
+	if _acc_delta >= input_sample_delay:
 		if Input.is_action_pressed("ui_valence_up"):
 			_slider.value += 1
 			emit_signal("valence_increased")
@@ -56,15 +57,10 @@ func _process(delta: float) -> void:
 			_acc_delta = 0.0
 
 
-# Updates the colors according to the current colors in settings
-func update_colors() -> void:
-	var _new_colors = settings.get_colors()
-	change_colors(_new_colors[0], _new_colors[1])
-
-
-# Change the color representing lower valence
-func change_lower_color(color: Color):
-	_low_color = color
+# Change both colors representing valence
+func change_colors(low: Color, high: Color):
+	_low_color = low
+	_high_color = high
 	_apply_colors()
 
 
@@ -74,16 +70,24 @@ func change_higher_color(color: Color):
 	_apply_colors()
 
 
-# Change both colors representing valence
-func change_colors(low: Color, high: Color):
-	_low_color = low
-	_high_color = high
+# Change the color representing lower valence
+func change_lower_color(color: Color):
+	_low_color = color
 	_apply_colors()
 
 
 # Set the scale keeping aspect ratio
 func scale(scale: float) -> void:
 	set_scale(Vector2(scale, scale))
+
+
+# Override from native function to allow for positioning by center point
+func set_position(pos: Vector2, center := true) -> void:
+	if center:
+		var current_size = get_size()
+		pos[0] -= (current_size[0] / 2)
+		pos[1] -= (current_size[1] / 2)
+	.set_position(pos)
 
 
 # Rotate the control to or from vertical position
@@ -100,13 +104,10 @@ func set_vertical(vert: bool) -> void:
 		vertical = vert
 
 
-# Override from native function to allow for positioning by center point
-func set_position(pos: Vector2, center := true) -> void:
-	if center:
-		var current_size = get_size()
-		pos[0] -= (current_size[0] / 2)
-		pos[1] -= (current_size[1] / 2)
-	.set_position(pos)
+# Updates the colors according to the current colors in settings
+func update_colors() -> void:
+	var _new_colors = settings.get_colors()
+	change_colors(_new_colors[0], _new_colors[1])
 
 
 # Apply the currently selected colors

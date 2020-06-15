@@ -4,22 +4,39 @@ extends VBoxContainer
 # Announces that a device has been selected and confirmed
 signal device_ready
 
-# * Variables
+# * Constants
+# Button with id scene
 const Button_Id = preload("res://scenes/gui/button_id.tscn")
-export var clock_waiting_message: String
+
+# * Variables
+# Clock message while scanning for devices
 export var clock_scan_message: String
-export var request_title: String
-export var request_subtitle: String
-export var progress_title: String
-export var progress_subtitle: String
-export var done_title: String
+# Clock message while waiting a delayed scan
+export var clock_waiting_message: String
+# Main subtitle when a scan is done
 export var done_subtitle: String
-var _devices: Control
+# Main title when a scan is done
+export var done_title: String
+# Main subtitle when a scan is in progress
+export var progress_subtitle: String
+# Main title when a scan is in progress
+export var progress_title: String
+# Main subtitle when a delayed scan is waiting
+export var request_subtitle: String
+# Main title when a delayed scan is waiting
+export var request_title: String
+# Device buttons container
 var _buttons: Control
+# Progress clock
 var _clock: Control
-var _clock_texture: TextureProgress
+# Clock text label
 var _clock_text: Label
+# Clock progress texture
+var _clock_texture: TextureProgress
+# Tween for animating the clock
 var _clock_tween: Tween
+# Devices scroll container
+var _devices: Control
 
 # * Functions
 
@@ -51,38 +68,6 @@ func start_scan(secs := 20) -> void:
 	heart_connector.request_scan(secs)
 
 
-# Shows the real progress of the scan
-func _real_scan_start(secs) -> void:
-	_stop_wait_tween()
-	_set_title_and_subtitle(progress_title, progress_subtitle)
-	_set_clock_text(clock_scan_message)
-	print("tween duration: %s" % secs)
-	_clock_tween.interpolate_property(_clock_texture, "value", 0, 360, secs)
-	_clock_tween.start()
-	_devices.show()
-
-
-# Handles scan end
-func _end_scan() -> void:
-	_clock.hide()
-	_clock_texture.set_value(0)
-	_set_title_and_subtitle(done_title, done_subtitle)
-	_enable_buttons()
-
-
-# Removes all the device buttons
-func _clean_buttons() -> void:
-	for child in _buttons.get_children():
-		_buttons.remove_child(child)
-		child.queue_free()
-
-
-# Enable device buttons
-func _enable_buttons() -> void:
-	for child in _buttons.get_children():
-		child.set_disabled(false)
-
-
 # Adds a new device button
 func _add_device(dev) -> void:
 	var button = _create_device_button(dev)
@@ -98,6 +83,38 @@ func _create_device_button(data: Dictionary) -> Node:
 	return button
 
 
+# Removes all the device buttons
+func _clean_buttons() -> void:
+	for child in _buttons.get_children():
+		_buttons.remove_child(child)
+		child.queue_free()
+
+
+# Enable device buttons
+func _enable_buttons() -> void:
+	for child in _buttons.get_children():
+		child.set_disabled(false)
+
+
+# Handles scan end
+func _end_scan() -> void:
+	_clock.hide()
+	_clock_texture.set_value(0)
+	_set_title_and_subtitle(done_title, done_subtitle)
+	_enable_buttons()
+
+
+# Shows the real progress of the scan
+func _real_scan_start(secs) -> void:
+	_stop_wait_tween()
+	_set_title_and_subtitle(progress_title, progress_subtitle)
+	_set_clock_text(clock_scan_message)
+	print("tween duration: %s" % secs)
+	_clock_tween.interpolate_property(_clock_texture, "value", 0, 360, secs)
+	_clock_tween.start()
+	_devices.show()
+
+
 # Handles device selection
 func _select_device(id: int) -> void:
 	heart_connector.select_device(id)
@@ -105,15 +122,15 @@ func _select_device(id: int) -> void:
 	emit_signal("device_ready")
 
 
+# Sets the clock text
+func _set_clock_text(text: String) -> void:
+	_clock_text.set_text(text)
+
+
 # Sets the title and subtitle of this node
 func _set_title_and_subtitle(title: String, subtitle: String) -> void:
 	$Title.set_text(title)
 	$Subtitle.set_text(subtitle)
-
-
-# Sets the clock text
-func _set_clock_text(text: String) -> void:
-	_clock_text.set_text(text)
 
 
 # Shows a waiting animation

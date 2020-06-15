@@ -19,14 +19,14 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-clock_waiting_message = "Waiting for server"
 clock_scan_message = "Scan progress"
-request_title = "Requesting scan"
-request_subtitle = "Initiating a scan for devices"
-progress_title = "Scan in progress"
-progress_subtitle = "Please wait until the scan ends to select your device"
-done_title = "Scan finished"
+clock_waiting_message = "Waiting for server"
 done_subtitle = "Select your device from the ones below or start a new scan"
+done_title = "Scan finished"
+progress_subtitle = "Please wait until the scan ends to select your device"
+progress_title = "Scan in progress"
+request_subtitle = "Initiating a scan for devices"
+request_title = "Requesting scan"
 
 [node name="Title" type="Label" parent="."]
 margin_right = 800.0
