@@ -1,10 +1,13 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://art/gui/theme/fonts/menu_panel_title.tres" type="DynamicFont" id=1]
-[ext_resource path="res://art/gui/progress/circ_progress_bg.png" type="Texture" id=2]
-[ext_resource path="res://art/gui/progress/circ_progress.png" type="Texture" id=3]
+[ext_resource path="res://assets/theme/fonts/menu_panel_title.tres" type="DynamicFont" id=1]
+[ext_resource path="res://art/textures/gui/progress/circ_progress_bg.png" type="Texture" id=2]
+[ext_resource path="res://art/textures/gui/progress/circ_progress.png" type="Texture" id=3]
 [ext_resource path="res://scripts/gui/MainMenu/scan_gui.gd" type="Script" id=4]
-[ext_resource path="res://art/gui/theme/game_theme.tres" type="Theme" id=5]
+[ext_resource path="res://assets/theme/game_theme.tres" type="Theme" id=5]
+
+
+
 
 [node name="ScanGui" type="VBoxContainer"]
 margin_left = 100.0

@@ -5,9 +5,9 @@
 [ext_resource path="res://scripts/gui/self_focusing_button.gd" type="Script" id=3]
 [ext_resource path="res://scripts/main.gd" type="Script" id=4]
 [ext_resource path="res://scripts/gui/MainMenu/menu_options.gd" type="Script" id=5]
-[ext_resource path="res://art/gui/theme/game_theme.tres" type="Theme" id=6]
-[ext_resource path="res://assets/textures/transparent.png" type="Texture" id=7]
-[ext_resource path="res://art/gui/theme/fonts/main_title.tres" type="DynamicFont" id=8]
+[ext_resource path="res://assets/theme/game_theme.tres" type="Theme" id=6]
+[ext_resource path="res://art/textures/gui/transparent_panel/transparent.png" type="Texture" id=7]
+[ext_resource path="res://assets/theme/fonts/main_title.tres" type="DynamicFont" id=8]
 [ext_resource path="res://scenes/gui/scan_gui.tscn" type="PackedScene" id=9]
 
 [sub_resource type="Gradient" id=1]

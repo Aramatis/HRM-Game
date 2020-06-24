@@ -1,12 +1,14 @@
 [gd_resource type="Theme" load_steps=8 format=2]
 
-[ext_resource path="res://art/gui/theme/fonts/default.tres" type="DynamicFont" id=1]
-[ext_resource path="res://art/gui/theme/fonts/menu_panel_title.tres" type="DynamicFont" id=2]
-[ext_resource path="res://art/gui/theme/fonts/main_title.tres" type="DynamicFont" id=3]
-[ext_resource path="res://art/gui/theme/styleboxes/transparent_focus.tres" type="StyleBox" id=4]
-[ext_resource path="res://art/gui/theme/styleboxes/transparent_disabled.tres" type="StyleBox" id=5]
-[ext_resource path="res://art/gui/theme/styleboxes/transparent_normal.tres" type="StyleBox" id=6]
-[ext_resource path="res://art/gui/theme/styleboxes/transparent_pressed.tres" type="StyleBox" id=7]
+[ext_resource path="res://assets/theme/fonts/default.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/theme/fonts/menu_panel_title.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/theme/fonts/main_title.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/theme/styleboxes/transparent_focus.tres" type="StyleBox" id=4]
+[ext_resource path="res://assets/theme/styleboxes/transparent_disabled.tres" type="StyleBox" id=5]
+[ext_resource path="res://assets/theme/styleboxes/transparent_normal.tres" type="StyleBox" id=6]
+[ext_resource path="res://assets/theme/styleboxes/transparent_pressed.tres" type="StyleBox" id=7]
+
+
 
 [resource]
 default_font = ExtResource( 1 )

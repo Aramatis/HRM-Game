@@ -11,9 +11,10 @@ signal start_requested
 
 # The texture to display in the panel when it's hidden
 const HiddenTexture: StreamTexture = \
-		preload("res://assets/textures/transparent.png")
+		preload("res://art/textures/gui/transparent_panel/transparent.png")
 # The texture to display in the panel when it's shown
-const PanelTexture: StreamTexture = preload("res://assets/textures/panel.png")
+const PanelTexture: StreamTexture = \
+		preload("res://art/textures/gui/transparent_panel/panel.png")
 
 # * Variables
 

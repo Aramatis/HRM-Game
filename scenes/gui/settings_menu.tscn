@@ -1,17 +1,21 @@
 [gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://scenes/gui/color_palette.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/textures/triangle_button/disabled.png" type="Texture" id=2]
-[ext_resource path="res://assets/textures/triangle_button/normal.png" type="Texture" id=3]
-[ext_resource path="res://assets/textures/triangle_button/hovered.png" type="Texture" id=4]
-[ext_resource path="res://assets/textures/triangle_button/pressed.png" type="Texture" id=5]
-[ext_resource path="res://art/gui/theme/fonts/menu_panel_subtitle.tres" type="DynamicFont" id=6]
-[ext_resource path="res://art/gui/theme/game_theme.tres" type="Theme" id=7]
+[ext_resource path="res://art/textures/gui/triangle_button/disabled.png" type="Texture" id=2]
+[ext_resource path="res://art/textures/gui/triangle_button/normal.png" type="Texture" id=3]
+[ext_resource path="res://art/textures/gui/triangle_button/hovered.png" type="Texture" id=4]
+[ext_resource path="res://art/textures/gui/triangle_button/pressed.png" type="Texture" id=5]
+[ext_resource path="res://assets/theme/fonts/menu_panel_subtitle.tres" type="DynamicFont" id=6]
+[ext_resource path="res://assets/theme/game_theme.tres" type="Theme" id=7]
 [ext_resource path="res://scripts/gui/Settings/palette_manager.gd" type="Script" id=8]
 [ext_resource path="res://scripts/gui/Settings/palettes.gd" type="Script" id=9]
 [ext_resource path="res://scripts/gui/Settings/settings_menu.gd" type="Script" id=10]
 [ext_resource path="res://scripts/gui/Settings/mute.gd" type="Script" id=11]
-[ext_resource path="res://assets/textures/triangle_button/click_mask.png" type="BitMap" id=12]
+[ext_resource path="res://art/textures/gui/triangle_button/click_mask.png" type="BitMap" id=12]
+
+
+
+
 
 [sub_resource type="StyleBoxEmpty" id=1]
 

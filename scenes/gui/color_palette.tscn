@@ -1,7 +1,9 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://art/gui/theme/fonts/default.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/theme/fonts/default.tres" type="DynamicFont" id=1]
 [ext_resource path="res://scripts/gui/Settings/color_palette.gd" type="Script" id=2]
+
+
 
 [node name="Pallete" type="HBoxContainer"]
 margin_right = 772.0
