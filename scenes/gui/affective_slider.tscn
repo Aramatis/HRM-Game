@@ -5,7 +5,6 @@
 [ext_resource path="res://art/textures/gui/slider/slider_v.png" type="Texture" id=3]
 [ext_resource path="res://scripts/GUI/affective_slider.gd" type="Script" id=4]
 
-
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.116, 0.5, 0.884 )
 colors = PoolColorArray( 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1 )
@@ -19,6 +18,10 @@ thickness = 0
 
 [node name="AffectiveSlider" type="Control"]
 light_mask = 2
+anchor_left = 0.5
+anchor_top = 0.05
+anchor_right = 0.5
+anchor_bottom = 0.05
 margin_left = -260.0
 margin_top = -25.0
 margin_right = 260.0
@@ -31,6 +34,10 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+location = 2
+vertical = false
+input_sample_delay = 0.3
+scale_ponderator = 1.0
 
 [node name="GradSprite" type="TextureRect" parent="."]
 light_mask = 2

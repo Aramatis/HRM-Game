@@ -1,0 +1,121 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://scripts/levels/inward_outward/testlevelmagic.gd" type="Script" id=1]
+[ext_resource path="res://scripts/levels/inward_outward/player_controller.gd" type="Script" id=2]
+[ext_resource path="res://scripts/levels/level_controller.gd" type="Script" id=3]
+[ext_resource path="res://scripts/levels/inward_outward/remote_rotator.gd" type="Script" id=4]
+[ext_resource path="res://scripts/levels/inward_outward/rails.gd" type="Script" id=5]
+[ext_resource path="res://scripts/levels/inward_outward/enemy_controller.gd" type="Script" id=6]
+[ext_resource path="res://scripts/levels/inward_outward/spawner.gd" type="Script" id=7]
+[ext_resource path="res://scenes/levels/level_gui/level_gui.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scripts/levels/world_controller.gd" type="Script" id=9]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 640, 16, -0.00733209, -343.959, 0.00733209, 343.959, 296, 360, 0, 0, 0, 0, 640, 704, -0.0156897, 343.943, 0.0156897, -343.943, 984, 360, 0, 0, 0, 0, 640, 16 )
+}
+
+[sub_resource type="Curve2D" id=2]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 128, 720 )
+}
+
+[sub_resource type="Curve2D" id=3]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 1152, 0, 0, 0, 0, 0, 1152, 720 )
+}
+
+[node name="Root" type="Node"]
+script = ExtResource( 3 )
+level_name = "Inward/Outward"
+
+[node name="BG" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="World" type="Node2D" parent="."]
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="PlayerController" type="Node2D" parent="World"]
+script = ExtResource( 2 )
+
+[node name="Circle" type="Path2D" parent="World/PlayerController"]
+curve = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Follower" type="PathFollow2D" parent="World/PlayerController/Circle"]
+position = Vector2( 640, 16 )
+rotation = 3.11836
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RemoteRotator" type="RemoteTransform2D" parent="World/PlayerController/Circle/Follower"]
+remote_path = NodePath("../../../Rails")
+update_position = false
+update_scale = false
+script = ExtResource( 4 )
+speed = -0.2
+
+[node name="Rails" type="Node2D" parent="World/PlayerController"]
+position = Vector2( 640, 360 )
+rotation = 3.11836
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="EnemyController" type="Node2D" parent="World"]
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Spawner1" type="Path2D" parent="World/EnemyController"]
+curve = SubResource( 2 )
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Sampler" type="PathFollow2D" parent="World/EnemyController/Spawner1"]
+position = Vector2( 128, 0 )
+rotate = false
+
+[node name="Spawner2" type="Path2D" parent="World/EnemyController"]
+curve = SubResource( 3 )
+script = ExtResource( 7 )
+
+[node name="Sampler" type="PathFollow2D" parent="World/EnemyController/Spawner2"]
+position = Vector2( 1152, 0 )
+rotate = false
+
+[node name="Timer" type="Timer" parent="World/EnemyController"]
+wait_time = 2.0
+
+[node name="LevelGui" parent="." instance=ExtResource( 8 )]
+
+[node name="EndTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[node name="AdjustTimer" type="Timer" parent="."]
+wait_time = 10.0
+[connection signal="timeout" from="World/EnemyController/Timer" to="World/EnemyController" method="spawn_enemy"]
+[connection signal="timeout" from="EndTimer" to="." method="end"]

@@ -12,8 +12,7 @@ signal sound_state_changed
 # * Constants
 
 # Settings menu scene
-const SettingsMenuScene: PackedScene = \
-		preload("res://scenes/gui/settings_menu.tscn")
+const MenuScene: PackedScene = preload("res://scenes/gui/settings_menu.tscn")
 
 # * Variables
 
@@ -55,7 +54,7 @@ func get_colors() -> PoolColorArray:
 # Return a Control node to show the settings menu
 func get_settings_menu() -> Node:
 	# Instance the scene
-	var menu = SettingsMenuScene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+	var menu = MenuScene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
 	# Connect the menu ready signal
 	menu.connect(
 		"menu_ready", self, "_on_settings_menu_ready", [], CONNECT_DEFERRED

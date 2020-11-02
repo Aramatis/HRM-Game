@@ -174,8 +174,6 @@ margin_left = 120.0
 margin_top = 163.908
 margin_right = 920.0
 margin_bottom = 375.908
-[connection signal="exit_requested" from="GUI" to="." method="exit_game"]
-[connection signal="start_requested" from="GUI" to="." method="start_game"]
 [connection signal="quit_pressed" from="GUI/Menu/MenuOptions" to="GUI" method="_quit_game"]
 [connection signal="scan_pressed" from="GUI/Menu/MenuOptions" to="GUI" method="_show_scan"]
 [connection signal="settings_pressed" from="GUI/Menu/MenuOptions" to="GUI" method="_show_settings"]
@@ -184,4 +182,3 @@ margin_bottom = 375.908
 [connection signal="pressed" from="GUI/Menu/MenuOptions/Start" to="GUI/Menu/MenuOptions" method="_on_start_pressed"]
 [connection signal="pressed" from="GUI/Menu/MenuOptions/Settings" to="GUI/Menu/MenuOptions" method="_on_settings_pressed"]
 [connection signal="pressed" from="GUI/Menu/MenuOptions/Quit" to="GUI/Menu/MenuOptions" method="_on_quit_pressed"]
-[connection signal="device_ready" from="GUI/Menu/ScanGui" to="GUI" method="_prepare_start"]

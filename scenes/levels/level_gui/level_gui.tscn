@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/gui/affective_slider.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/levels/inward_outward/level_gui.gd" type="Script" id=4]
+[ext_resource path="res://scenes/levels/level_gui/score_panel.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/levels/level_gui/bonus_gui.tscn" type="PackedScene" id=6]
+
+[node name="LevelGui" type="Control"]
+pause_mode = 2
+anchor_left = 0.02
+anchor_top = 0.04
+anchor_right = 0.98
+anchor_bottom = 0.96
+mouse_filter = 2
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScorePanel" parent="." instance=ExtResource( 5 )]
+pause_mode = 1
+margin_right = -3.05176e-05
+
+[node name="BonusGui" parent="." instance=ExtResource( 6 )]
+pause_mode = 1
+
+[node name="AffectiveSlider" parent="." instance=ExtResource( 1 )]
+pause_mode = 1
+anchor_left = 0.97
+anchor_top = 0.5
+anchor_right = 0.97
+anchor_bottom = 0.5
+margin_left = -257.536
+margin_top = -24.0
+margin_right = 262.464
+margin_bottom = 26.0
+rect_rotation = -90.0
+rect_scale = Vector2( 0.8, 0.8 )
+location = 1
+vertical = true
+scale_ponderator = 0.8
+
+[node name="BgLayer" type="CanvasLayer" parent="."]
+layer = -10
