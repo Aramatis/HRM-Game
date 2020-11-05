@@ -137,7 +137,7 @@ func set_position(pos: Vector2, center := true) -> void:
 
 # Rotate the control to or from vertical position
 func set_vertical(vert: bool) -> void:
-	if (typeof(_h_light) == TYPE_NIL) or (typeof(_v_light) == TYPE_NIL):
+	if not is_inside_tree():
 		_defer_vertical = true
 		_vert_deferred = vert
 
@@ -158,6 +158,10 @@ func set_location(loc: int) -> void:
 	if loc in Location.values():
 		location = loc
 		_update_anchors(location)
+	if location == Location.TOP or location == Location.BOTTOM:
+		set_vertical(false)
+	else:
+		set_vertical(true)
 
 
 # Returns the value of the variable location

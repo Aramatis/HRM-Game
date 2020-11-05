@@ -29,18 +29,6 @@ _data = {
 script = ExtResource( 3 )
 level_name = "Inward/Outward"
 
-[node name="BG" type="ColorRect" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-color = Color( 0, 0, 0, 1 )
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true,
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
 [node name="World" type="Node2D" parent="."]
 script = ExtResource( 9 )
 __meta__ = {
@@ -109,6 +97,7 @@ rotate = false
 wait_time = 2.0
 
 [node name="LevelGui" parent="." instance=ExtResource( 8 )]
+slider_location = 0
 
 [node name="EndTimer" type="Timer" parent="."]
 wait_time = 10.0
@@ -117,5 +106,8 @@ autostart = true
 
 [node name="AdjustTimer" type="Timer" parent="."]
 wait_time = 10.0
+
+[node name="TestLevelMagic" type="Node" parent="."]
+script = ExtResource( 1 )
 [connection signal="timeout" from="World/EnemyController/Timer" to="World/EnemyController" method="spawn_enemy"]
 [connection signal="timeout" from="EndTimer" to="." method="end"]

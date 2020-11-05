@@ -1,4 +1,3 @@
-tool
 class_name LevelGui
 extends Control
 
@@ -11,6 +10,9 @@ signal bonus_used
 # * Variables
 enum Corners { UPPER_LEFT, UPPER_RIGHT, LOWER_LEFT, LOWER_RIGHT }
 enum Edges { LEFT, RIGHT, TOP, BOTTOM }
+export (Edges) var slider_location := Edges.RIGHT setget set_slider_location, get_slider_location
+export (Corners) var bonus_location := Corners.UPPER_RIGHT setget set_bonus_location, get_bonus_location
+export (Corners) var score_location := Corners.UPPER_LEFT setget set_score_location, get_score_location
 var _slider: Control
 var _bonus: Control
 var _score: Control
@@ -29,6 +31,48 @@ func _ready() -> void:
 	_slider.connect("valence_increased", self, "valence_up")
 	_slider.connect("valence_decreased", self, "valence_down")
 	_bonus.connect("bonus_used", self, "_propagate_bonus")
+	set_slider_location(slider_location)
+	set_bonus_location(bonus_location)
+	set_score_location(score_location)
+
+
+# Sets the variable slider_location to the given value
+func set_slider_location(loc: int) -> void:
+	slider_location = loc
+	if is_inside_tree():
+		if slider_location != _slider.location:
+			_slider.set_location(loc)
+
+
+# Returns the value of the variable slider_location
+func get_slider_location() -> int:
+	return slider_location
+
+
+# Sets the variable bonus_location to the given value
+func set_bonus_location(loc: int) -> void:
+	bonus_location = loc
+	if is_inside_tree():
+		if bonus_location != _bonus.get_location():
+			_bonus.set_location(loc)
+
+
+# Returns the value of the variable bonus_location
+func get_bonus_location() -> int:
+	return bonus_location
+
+
+# Sets the variable score_location to the given value
+func set_score_location(loc: int) -> void:
+	score_location = loc
+	if is_inside_tree():
+		if score_location != _score.get_location():
+			_score.set_location(loc)
+
+
+# Returns the value of the variable score_location
+func get_score_location() -> int:
+	return score_location
 
 
 # Handles a valence increase
