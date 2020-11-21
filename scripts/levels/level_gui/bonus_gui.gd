@@ -63,9 +63,13 @@ func load_bonus() -> void:
 	_start_load_tween()
 
 
-# Attempts to use a bonus
-func use_bonus() -> void:
+# Attempts to use a bonus, returns true if used
+func use_bonus() -> bool:
+	var result := false
+	if true in _disponibility:
+		result = true
 	_start_unload_tween()
+	return result
 
 
 # Starts the loading animation for a bonus, if possible

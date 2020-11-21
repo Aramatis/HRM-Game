@@ -24,7 +24,7 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("apply_bonus"):
 		add_rail()
-	elif event.is_action_pressed("cancel_bonus"):
+	elif event.is_action_pressed("secondary_action"):
 		remove_rail()
 	elif event.is_action_pressed("main_action"):
 		toggle_direction()

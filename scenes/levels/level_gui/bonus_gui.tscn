@@ -7,6 +7,7 @@
 [ext_resource path="res://art/textures/levels/inward_outward/player_ball.png" type="Texture" id=5]
 
 [node name="BonusGui" type="VBoxContainer"]
+pause_mode = 1
 anchor_left = 0.867
 anchor_right = 1.0
 anchor_bottom = 0.11
@@ -18,8 +19,6 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
-location = 1
-vertical = false
 
 [node name="Label" type="Label" parent="."]
 margin_right = 170.0

@@ -17,6 +17,7 @@ width = 500
 thickness = 0
 
 [node name="AffectiveSlider" type="Control"]
+pause_mode = 1
 light_mask = 2
 anchor_left = 0.5
 anchor_top = 0.05

@@ -16,5 +16,12 @@ func _ready() -> void:
 
 
 #
-func _use_bonus() -> void:
+func use_bonus() -> void:
+	#! TODO: Add rails
+	pass
+
+
+#
+func update_difficulty() -> void:
+	#! TODO: Modify spawn time/speed
 	pass

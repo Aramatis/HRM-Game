@@ -87,9 +87,9 @@ func valence_down() -> void:
 	_bonus.load_bonus()
 
 
-# Attempts to use a bonus
-func activate_bonus() -> void:
-	_bonus.use_bonus()
+# Attempts to use a bonus, returns true if it was used
+func apply_bonus() -> bool:
+	return _bonus.use_bonus()
 
 
 # Sets the variable active to the given value
