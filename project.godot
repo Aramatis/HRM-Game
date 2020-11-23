@@ -24,7 +24,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/autoload/heart_connector.gd"
 }, {
-"base": "Reference",
+"base": "Node",
 "class": "LevelController",
 "language": "GDScript",
 "path": "res://scripts/levels/base_level/level_controller.gd"
@@ -34,15 +34,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/levels/inward_outward/level_gui.gd"
 }, {
-"base": "Node2D",
-"class": "PlayerController",
-"language": "GDScript",
-"path": "res://scripts/levels/inward_outward/player_controller.gd"
-}, {
 "base": "Path2D",
 "class": "PlayerRail",
 "language": "GDScript",
 "path": "res://scripts/levels/inward_outward/player_rail.gd"
+}, {
+"base": "Node2D",
+"class": "RailSystem",
+"language": "GDScript",
+"path": "res://scripts/levels/inward_outward/rail_system.gd"
 }, {
 "base": "Button",
 "class": "SelfFocusingButton",
@@ -54,10 +54,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/autoload/settings.gd"
 }, {
-"base": "Reference",
-"class": "WorldController",
+"base": "Node2D",
+"class": "SpawnerSystem",
 "language": "GDScript",
-"path": "res://scripts/levels/inward_outward/world_controller.gd"
+"path": "res://scripts/levels/inward_outward/spawner_system.gd"
 } ]
 _global_script_class_icons={
 "ButtonId": "",
@@ -65,11 +65,11 @@ _global_script_class_icons={
 "HeartConnector": "",
 "LevelController": "",
 "LevelGui": "",
-"PlayerController": "",
 "PlayerRail": "",
+"RailSystem": "",
 "SelfFocusingButton": "",
 "Settings": "",
-"WorldController": ""
+"SpawnerSystem": ""
 }
 
 [application]

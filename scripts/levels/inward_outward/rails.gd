@@ -20,16 +20,6 @@ func _ready() -> void:
 	add_rail()
 
 
-#
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("apply_bonus"):
-		add_rail()
-	elif event.is_action_pressed("secondary_action"):
-		remove_rail()
-	elif event.is_action_pressed("main_action"):
-		toggle_direction()
-
-
 # Adds a playing rail
 func add_rail() -> PlayerRail:
 	n_rails += 1

@@ -2,7 +2,7 @@ class_name PlayerRail
 extends Path2D
 
 # * Signals
-signal ball_hitted
+signal ball_hit
 signal ball_enabled
 
 # * Variables
@@ -20,7 +20,6 @@ func _ready() -> void:
 	damage_timer = $DamageTimer
 	follower.set_speed(speed)
 	add_to_group("player_rails")
-	emit_signal("ball_enabled")
 
 
 func _draw() -> void:
@@ -75,7 +74,7 @@ func _check_for_hits(area: Area2D) -> void:
 	if area.is_in_group("enemies") and damage_timer.is_stopped():
 		follower.get_damaged()
 		damage_timer.start()
-		emit_signal("ball_hitted")
+		emit_signal("ball_hit")
 
 
 #
