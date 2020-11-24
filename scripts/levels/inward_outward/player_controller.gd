@@ -13,6 +13,8 @@ var _rail_system: RailSystem
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_rail_system = $RailSystem
+	_add_rail()
+	_add_rail()
 
 
 # Called when the main action is used, reverts the movement directions
@@ -27,6 +29,11 @@ func secondary_used() -> void:
 
 # Called when a bonus is used, adds a rail
 func bonus_used() -> void:
+	_add_rail()
+
+
+# Adds a new rail for the player
+func _add_rail() -> void:
 	var rail = _rail_system.add_rail()
 	rail.connect("ball_hit", self, "_get_damaged")
 	rail.connect("ball_enabled", self, "_get_healed")

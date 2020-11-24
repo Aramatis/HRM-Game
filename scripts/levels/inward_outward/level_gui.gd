@@ -113,14 +113,15 @@ func _propagate_bonus() -> void:
 # Raises the current multiplier
 func raise_multiplier() -> void:
 	_current_multiplier += 1
-	_score.raise_multiplier()
+	if _current_multiplier > 1:
+		_score.raise_multiplier()
 
 
 # Lowers the current multiplier
 func lower_multiplier() -> void:
 	if _current_multiplier > 1:
 		_score.lower_multiplier()
-		_current_multiplier -= 1
+	_current_multiplier -= 1
 
 
 # Shows the pause screen

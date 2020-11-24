@@ -16,8 +16,6 @@ func _ready() -> void:
 	player_speed = 0.2
 	n_rails = 0
 	rails = []
-	add_rail()
-	add_rail()
 
 
 # Adds a playing rail
