@@ -35,6 +35,7 @@ var _diff_step: float
 var _prev_action: int
 var _valence_difficulty_effect: float
 var _started: bool
+var _paused: bool
 var _end_timer: Timer
 var _adjust_timer: Timer
 
@@ -48,6 +49,7 @@ func _ready() -> void:
 	current_difficulty = base_local_difficulty
 	_valence_difficulty_effect = 1.0
 	_started = false
+	_paused = false
 	_end_timer = $EndTimer
 	_adjust_timer = $AdjustTimer
 	_end_timer.set_wait_time(total_time)
@@ -160,27 +162,38 @@ func _full_entry(moment: String) -> void:
 
 # Handles any level wide effects of the main action
 func _on_main_pressed() -> void:
-	get_tree().call_group("controllers", "main_used")
+	if not _paused:
+		get_tree().call_group("controllers", "main_used")
 
 
 # Handles any level wide effects of the secondary action
 func _on_secondary_pressed() -> void:
-	get_tree().call_group("controllers", "secondary_used")
+	if not _paused:
+		get_tree().call_group("controllers", "secondary_used")
 
 
 # Handles any level wide effects of a bonus press, raises the multiplier if a
 # bonus can be used by default
 func _on_bonus_pressed() -> void:
-	var used = level_gui.apply_bonus()
-	if used:
-		get_tree().call_group("controllers", "bonus_used")
-		level_gui.raise_multiplier()
+	if not _paused:
+		var used = level_gui.apply_bonus()
+		if used:
+			get_tree().call_group("controllers", "bonus_used")
+			level_gui.raise_multiplier()
 
 
 # Handles the pausing of the level
 func _on_pause_pressed() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	# TODO: Change for pause
+	if _paused:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		level_gui.hide_pause()
+		get_tree().paused = false
+		_paused = false
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		level_gui.show_pause()
+		get_tree().paused = true
+		_paused = true
 
 
 # Called when an input is given by the user

@@ -13,11 +13,12 @@ enum Edges { LEFT, RIGHT, TOP, BOTTOM }
 export (Edges) var slider_location := Edges.RIGHT setget set_slider_location, get_slider_location
 export (Corners) var bonus_location := Corners.UPPER_RIGHT setget set_bonus_location, get_bonus_location
 export (Corners) var score_location := Corners.UPPER_LEFT setget set_score_location, get_score_location
+var active := false setget set_active, get_active
+var _pause_layer: CanvasLayer
 var _slider: Control
 var _bonus: Control
 var _score: Control
 var _current_multiplier: int
-var active := false setget set_active, get_active
 
 # * Functions
 
@@ -27,6 +28,7 @@ func _ready() -> void:
 	_slider = $AffectiveSlider
 	_bonus = $BonusGui
 	_score = $ScorePanel
+	_pause_layer = $PauseLayer
 	_current_multiplier = 1
 	_slider.connect("valence_increased", self, "valence_up")
 	_slider.connect("valence_decreased", self, "valence_down")
@@ -111,12 +113,21 @@ func _propagate_bonus() -> void:
 # Raises the current multiplier
 func raise_multiplier() -> void:
 	_current_multiplier += 1
-	if _current_multiplier > 1:
-		_score.raise_multiplier()
+	_score.raise_multiplier()
 
 
 # Lowers the current multiplier
 func lower_multiplier() -> void:
 	if _current_multiplier > 1:
 		_score.lower_multiplier()
-	_current_multiplier -= 1
+		_current_multiplier -= 1
+
+
+# Shows the pause screen
+func show_pause() -> void:
+	_pause_layer.set_layer(128)
+
+
+# Hides the pause screen
+func hide_pause() -> void:
+	_pause_layer.set_layer(-128)

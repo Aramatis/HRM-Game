@@ -5,9 +5,11 @@
 [ext_resource path="res://scenes/levels/level_gui/level_gui.tscn" type="PackedScene" id=8]
 
 [node name="LevelController" type="Node"]
+pause_mode = 2
 script = ExtResource( 1 )
 
 [node name="World" type="Node2D" parent="."]
+pause_mode = 1
 __meta__ = {
 "_edit_group_": true,
 "_edit_lock_": true
@@ -25,10 +27,12 @@ script = ExtResource( 2 )
 [node name="LevelGui" parent="." instance=ExtResource( 8 )]
 
 [node name="EndTimer" type="Timer" parent="."]
+pause_mode = 1
 wait_time = 300.0
 one_shot = true
 
 [node name="AdjustTimer" type="Timer" parent="."]
+pause_mode = 1
 wait_time = 10.0
 [connection signal="timeout" from="EndTimer" to="." method="end"]
 [connection signal="timeout" from="AdjustTimer" to="." method="update_difficulty"]
