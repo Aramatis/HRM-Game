@@ -16,7 +16,13 @@ func _ready() -> void:
 # Starts the load animation
 func start_load(tween: Tween, spd: float) -> void:
 	tween.interpolate_property(
-		self, "value", 0, 100, 20.0 * spd, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+		self,
+		"value",
+		0,
+		100,
+		10 * (1.0 / spd),
+		Tween.TRANS_LINEAR,
+		Tween.EASE_IN_OUT
 	)
 	tween.connect(
 		"tween_completed", self, "_end_load", [tween], CONNECT_ONESHOT

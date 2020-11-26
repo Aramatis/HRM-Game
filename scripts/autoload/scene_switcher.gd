@@ -4,7 +4,6 @@ extends Node
 
 # * Variables
 const _path_prefix := "res://scenes/levels/%s"
-var _timer: Timer
 var _path: String
 var _next_scene
 var _next_state: Dictionary
@@ -18,10 +17,7 @@ var _path_number: int
 func _ready() -> void:
 	_path = ""
 	_next_scene = null
-	_timer = Timer.new()
-	add_child(_timer)
-	_timer.set_one_shot(true)
-	_timer.set_wait_time(15.0)
+	#! TODO: Update _path_list and _path_number
 	_path_list = [
 		"pre_game/pre_game",
 		"inward_outward/inward_outward",
@@ -29,7 +25,6 @@ func _ready() -> void:
 		"main_menu"
 	]
 	_path_number = 2
-	_timer.connect("timeout", self, "_load_scene")
 
 
 # Sets the scene change to start
@@ -38,7 +33,7 @@ func scene_change() -> void:
 	_path_number += 1
 	_path_number %= _path_list.size()
 	_preload_scene()
-	_timer.start()
+	_load_scene()
 
 
 # Preloads the scene in the given path
@@ -56,20 +51,44 @@ func _load_scene() -> String:
 # Frees the current scene when it's safe
 func _deferred_load() -> void:
 	var _current_scene = get_tree().get_current_scene()
-	# TODO: Retrieve state
 	_current_scene.free()
 	var next_scene = _next_scene.instance()
 	get_tree().set_current_scene(next_scene)
 	_load_previous_state(next_scene)
+	next_scene.connect(
+		"level_finished", self, "scene_change", [], Object.CONNECT_ONESHOT
+	)
+	next_scene.start()
 
 
 # Retrieves the state of the current scene
 func _retrieve_state() -> Dictionary:
-	# TODO: Implement, and remember to pause
-	return {}
+	var _current_scene = get_tree().get_current_scene()
+	var state = _current_scene.retrieve_data()
+	var result = {}
+	if not state.empty():
+		result["current_val"] = state["current_val"]
+		var diff_raise = state["current_diff"] - state["base_diff"]
+		var target_raise = state["target_diff"] - state["base_diff"]
+		var raise_achieved = diff_raise / target_raise
+		result["base_diff"] = state["current_diff"] - (diff_raise / 3)
+		result["target_diff"] = (
+			result["base_diff"]
+			+ (target_raise * raise_achieved * 1.1)
+		)
+		result["current_hr"] = state["current_hr"]
+	return result
 
 
 # Loads the saved state from a previous scene
 func _load_previous_state(scene) -> void:
-	# TODO: Implement
+	if not _next_state.empty():
+		scene.set_start(_next_state)
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta: float) -> void:
+	#! TODO: Implement
+	#if _next_scene is null:
+	#	scene_change()
 	pass

@@ -89,6 +89,16 @@ func get_score() -> int:
 	return score
 
 
+# Sets the variable score to the given value
+func set_score_spd(spd: float) -> void:
+	_auto_score_secs = 1.0 / spd
+
+
+# Returns the value of the variable score
+func get_score_spd() -> float:
+	return 1.0 / _auto_score_secs
+
+
 # Adds points manually to the current score
 func add_score(points: int) -> void:
 	if active:

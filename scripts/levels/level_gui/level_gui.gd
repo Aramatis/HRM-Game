@@ -132,3 +132,23 @@ func show_pause() -> void:
 # Hides the pause screen
 func hide_pause() -> void:
 	_pause_layer.set_layer(-128)
+
+
+# Returns the current load speed for the bonus
+func get_bonus_load_spd() -> float:
+	return _bonus.get_load_speed()
+
+
+# Sets a new load speed for the bonus
+func set_bonus_load_spd(spd: float) -> void:
+	_bonus.set_load_speed(spd)
+
+
+# Returns the current load speed for the bonus
+func get_score_spd() -> float:
+	return _score.get_score_speed()
+
+
+# Sets a new load speed for the bonus
+func set_score_spd(spd: float) -> void:
+	_score.set_score_speed(spd)

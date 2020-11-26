@@ -12,7 +12,8 @@ const _FULL_ENTRY_TEMP = """Level {0} {1}:
 	Valence at {1}: {2}
 	Difficulty at {1}: {3}
 	Target Difficulty: {4}
-	Heart Rate at {1}: {5}"""
+	Heart Rate at {1}: {5}
+	Target Heart Rate: {6}"""
 # Name of the level
 export (String) var level_name := "base"
 # Total playtime of the level in seconds
@@ -22,15 +23,20 @@ export (float) var adjust_time := 10.0
 # Base valence of the user when the level starts
 export (float) var base_valence := 5.0
 # Base difficulty of the level when it starts
-export (float) var base_local_difficulty := 0.0
+export (float) var base_local_difficulty := 1.0
 # Target difficulty for the level to achieve at its end
-export (float) var target_local_difficulty := 5.0
+export (float) var target_local_difficulty := 3.0
+# Target heart rate for the level to achieve at its end, as fraction of the
+# initial heart rate
+export (float) var hr_variance_target := 1.2
 
 enum Actions { DIFF_UP, DIFF_DOWN, NONE }
 var current_valence: float
 var current_difficulty: float
 var level_gui: LevelGui
 var _heart_rates: Array
+var _base_hr: float
+var _hr_difference_target: float
 var _diff_step: float
 var _prev_action: int
 var _valence_difficulty_effect: float
@@ -38,6 +44,7 @@ var _started: bool
 var _paused: bool
 var _end_timer: Timer
 var _adjust_timer: Timer
+var _hr_target_progress: float
 
 # * Functions
 
@@ -56,6 +63,9 @@ func _ready() -> void:
 	_adjust_timer.set_wait_time(adjust_time)
 	_prev_action = Actions.NONE
 	_heart_rates = []
+	_base_hr = -1.0
+	_hr_difference_target = -1.0
+	_hr_target_progress = 0.0
 	var step_amount = total_time / adjust_time
 	_diff_step = (target_local_difficulty - base_local_difficulty) / step_amount
 	heart_connector.register_hrm(
@@ -67,12 +77,48 @@ func _ready() -> void:
 
 
 # Sets the initial values to start the level
-func set_start(val_base: float, diff_base: float, diff_target: float) -> void:
-	base_valence = val_base
+func set_start(dict: Dictionary) -> void:
+	base_valence = dict["current_val"]
 	current_valence = base_valence
-	base_local_difficulty = diff_base
+	base_local_difficulty = dict["base_diff"]
 	current_difficulty = base_local_difficulty
-	target_local_difficulty = diff_target
+	target_local_difficulty = dict["target_diff"]
+	update_hr(int(dict["current_hr"]))
+	var step_amount = total_time / adjust_time
+	_diff_step = (target_local_difficulty - base_local_difficulty) / step_amount
+
+
+# Starts the level
+func start() -> void:
+	if not _started:
+		_full_entry("start")
+		_started = true
+		emit_signal("level_started")
+		_end_timer.start()
+		_adjust_timer.start()
+		level_gui.set_active(true)
+
+
+# Ends the level
+func end() -> void:
+	if _started:
+		level_gui.set_active(false)
+		_started = false
+		_full_entry("finish")
+		emit_signal("level_finished")
+
+
+# Retrieves the important data of the level
+func retrieve_data() -> Dictionary:
+	return {
+		"base_diff": base_local_difficulty,
+		"target_diff": target_local_difficulty,
+		"current_diff": current_difficulty,
+		"current_val": current_valence,
+		"base_hr": _base_hr,
+		"target_hr": _base_hr + _hr_difference_target,
+		"current_hr": _real_array_avg(_heart_rates)
+	}
 
 
 # Adjust the difficulty on a valence change
@@ -89,16 +135,27 @@ func _update_valence(up: bool) -> void:
 			pass
 
 
-# Adjust the hr parameters
+# Adjusts the hr parameters and notifies controllers of hr progress if necessary
 func update_hr(tick: int) -> void:
 	_heart_rates.append(tick * 1.0)
-	if _heart_rates.size() > 5:
+	if _heart_rates.size() == 5:
+		_base_hr = _real_array_avg(_heart_rates)
+		_hr_difference_target = (_base_hr * hr_variance_target) - _base_hr
+	elif _heart_rates.size() > 5:
 		_heart_rates.pop_front()
-		var avg := 0.0
-		for hr in _heart_rates:
-			avg += hr
-		avg /= _heart_rates.size()
-		get_tree().call_group("controllers", "hr_changed", avg)
+		var avg = _real_array_avg(_heart_rates)
+		_hr_target_progress = (avg - _base_hr) / _hr_difference_target
+		get_tree().call_group("controllers", "hr_changed", _hr_target_progress)
+
+
+# Returns the average of an array of real numbers
+func _real_array_avg(array: Array) -> float:
+	var avg = -1.0
+	if not array.empty():
+		for val in array:
+			avg += val
+		avg /= array.size()
+	return avg
 
 
 # HRM error handler
@@ -126,24 +183,6 @@ func update_difficulty() -> void:
 	)
 
 
-# Starts the level
-func start() -> void:
-	if not _started:
-		_full_entry("start")
-		_started = true
-		emit_signal("level_started")
-		_end_timer.start()
-		_adjust_timer.start()
-
-
-# Ends the level
-func end() -> void:
-	if _started:
-		_started = false
-		_full_entry("finish")
-		emit_signal("level_finished")
-
-
 # Logs an entry with all relevant values at the given moment
 func _full_entry(moment: String) -> void:
 	logger.log_entry(
@@ -154,7 +193,8 @@ func _full_entry(moment: String) -> void:
 				current_valence,
 				current_difficulty,
 				target_local_difficulty,
-				_heart_rates.back()
+				_real_array_avg(_heart_rates),
+				_base_hr + _hr_difference_target
 			]
 		)
 	)
