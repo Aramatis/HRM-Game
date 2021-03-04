@@ -6,7 +6,7 @@
 [node name="ScorePanel" type="Control"]
 pause_mode = 1
 anchor_right = 0.125
-anchor_bottom = 0.1
+anchor_bottom = 0.125
 rect_min_size = Vector2( 160, 42 )
 mouse_filter = 2
 size_flags_horizontal = 0

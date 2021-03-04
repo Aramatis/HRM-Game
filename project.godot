@@ -29,7 +29,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/levels/base_level/level_controller.gd"
 }, {
-"base": "Reference",
+"base": "Control",
 "class": "LevelGui",
 "language": "GDScript",
 "path": "res://scripts/levels/level_gui/level_gui.gd"

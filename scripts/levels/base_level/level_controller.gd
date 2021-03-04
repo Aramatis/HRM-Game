@@ -5,6 +5,8 @@ extends Node
 signal level_started
 signal level_finished
 
+enum Actions { DIFF_UP, DIFF_DOWN, NONE }
+
 # * Variables
 
 # Template for an entry in the log
@@ -14,6 +16,7 @@ const _FULL_ENTRY_TEMP = """Level {0} {1}:
 	Target Difficulty: {4}
 	Heart Rate at {1}: {5}
 	Target Heart Rate: {6}"""
+
 # Name of the level
 export (String) var level_name := "base"
 # Total playtime of the level in seconds
@@ -29,8 +32,6 @@ export (float) var target_local_difficulty := 3.0
 # Target heart rate for the level to achieve at its end, as fraction of the
 # initial heart rate
 export (float) var hr_variance_target := 1.2
-
-enum Actions { DIFF_UP, DIFF_DOWN, NONE }
 var current_valence: float
 var current_difficulty: float
 var level_gui: LevelGui
@@ -74,6 +75,18 @@ func _ready() -> void:
 	level_gui.connect("valence_change", self, "_update_valence")
 	# Capture the user's mouse
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
+# Called when an input is given by the user
+func _unhandled_input(event) -> void:
+	if event.is_action_pressed("main_action"):
+		_on_main_pressed()
+	elif event.is_action_pressed("secondary_action"):
+		_on_secondary_pressed()
+	elif event.is_action_pressed("apply_bonus"):
+		_on_bonus_pressed()
+	elif event.is_action_pressed("ui_cancel"):
+		_on_pause_pressed()
 
 
 # Sets the initial values to start the level
@@ -121,6 +134,35 @@ func retrieve_data() -> Dictionary:
 	}
 
 
+# Adjusts the hr parameters and notifies controllers of hr progress if necessary
+func update_hr(tick: int) -> void:
+	_heart_rates.append(tick * 1.0)
+	if _heart_rates.size() == 5:
+		_base_hr = _real_array_avg(_heart_rates)
+		_hr_difference_target = (_base_hr * hr_variance_target) - _base_hr
+	elif _heart_rates.size() > 5:
+		_heart_rates.pop_front()
+		var avg = _real_array_avg(_heart_rates)
+		_hr_target_progress = (avg - _base_hr) / _hr_difference_target
+		get_tree().call_group("controllers", "hr_changed", _hr_target_progress)
+
+
+# Adjusts the level difficulty according to a timer
+func update_difficulty() -> void:
+	var step = _diff_step * _valence_difficulty_effect
+	if step > _diff_step:
+		_prev_action = Actions.DIFF_UP
+	elif step < _diff_step:
+		_prev_action = Actions.DIFF_DOWN
+	else:
+		_prev_action = Actions.NONE
+	current_difficulty += _diff_step * _valence_difficulty_effect
+	get_tree().call_group(
+		"controllers", "difficulty_updated", current_difficulty
+	)
+	_full_entry("diff change, %.3f remaining" % _end_timer.get_time_left())
+
+
 # Adjust the difficulty on a valence change
 func _update_valence(up: bool) -> void:
 	var adjust = -1.0
@@ -133,19 +175,6 @@ func _update_valence(up: bool) -> void:
 			_valence_difficulty_effect -= 0.1 * adjust
 		_:
 			pass
-
-
-# Adjusts the hr parameters and notifies controllers of hr progress if necessary
-func update_hr(tick: int) -> void:
-	_heart_rates.append(tick * 1.0)
-	if _heart_rates.size() == 5:
-		_base_hr = _real_array_avg(_heart_rates)
-		_hr_difference_target = (_base_hr * hr_variance_target) - _base_hr
-	elif _heart_rates.size() > 5:
-		_heart_rates.pop_front()
-		var avg = _real_array_avg(_heart_rates)
-		_hr_target_progress = (avg - _base_hr) / _hr_difference_target
-		get_tree().call_group("controllers", "hr_changed", _hr_target_progress)
 
 
 # Returns the average of an array of real numbers
@@ -166,21 +195,6 @@ func _handle_hrm_error(_err: int) -> void:
 # HRM ready signal handler
 func _ignore_hrm_ready() -> void:
 	pass
-
-
-# Adjusts the level difficulty according to a timer
-func update_difficulty() -> void:
-	var step = _diff_step * _valence_difficulty_effect
-	if step > _diff_step:
-		_prev_action = Actions.DIFF_UP
-	elif step < _diff_step:
-		_prev_action = Actions.DIFF_DOWN
-	else:
-		_prev_action = Actions.NONE
-	current_difficulty += _diff_step * _valence_difficulty_effect
-	get_tree().call_group(
-		"controllers", "difficulty_updated", current_difficulty
-	)
 
 
 # Logs an entry with all relevant values at the given moment
@@ -234,15 +248,3 @@ func _on_pause_pressed() -> void:
 		level_gui.show_pause()
 		get_tree().paused = true
 		_paused = true
-
-
-# Called when an input is given by the user
-func _unhandled_input(event) -> void:
-	if event.is_action_pressed("main_action"):
-		_on_main_pressed()
-	elif event.is_action_pressed("secondary_action"):
-		_on_secondary_pressed()
-	elif event.is_action_pressed("apply_bonus"):
-		_on_bonus_pressed()
-	elif event.is_action_pressed("ui_cancel"):
-		_on_pause_pressed()

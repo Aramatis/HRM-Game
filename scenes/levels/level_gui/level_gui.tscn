@@ -17,6 +17,7 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+slider_location = 3
 
 [node name="ScorePanel" parent="." instance=ExtResource( 5 )]
 margin_right = -3.05176e-05

@@ -25,6 +25,7 @@ script = ExtResource( 2 )
 script = ExtResource( 2 )
 
 [node name="LevelGui" parent="." instance=ExtResource( 8 )]
+slider_location = 1
 
 [node name="EndTimer" type="Timer" parent="."]
 pause_mode = 1

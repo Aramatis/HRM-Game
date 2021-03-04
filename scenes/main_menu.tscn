@@ -90,10 +90,10 @@ patch_margin_bottom = 20
 [node name="Content" type="CenterContainer" parent="GUI/Menu/Separator"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
-margin_top = 20.0
-margin_right = -20.0
-margin_bottom = -20.0
+margin_left = 24.0
+margin_top = 23.0
+margin_right = -16.0
+margin_bottom = -17.0
 rect_min_size = Vector2( 1000, 200 )
 rect_scale = Vector2( 1, 0.993854 )
 rect_clip_content = true
@@ -115,14 +115,14 @@ script = ExtResource( 5 )
 [node name="Scan" type="Button" parent="GUI/Menu/MenuOptions" groups=[
 "buttons",
 ]]
-margin_left = 450.0
-margin_right = 590.0
+margin_left = 438.0
+margin_right = 602.0
 margin_bottom = 41.0
 rect_min_size = Vector2( 140, 0 )
 size_flags_horizontal = 4
 size_flags_vertical = 3
 size_flags_stretch_ratio = 95.68
-text = "Select MiBand"
+text = "Select your MiBand"
 script = ExtResource( 3 )
 
 [node name="Start" type="Button" parent="GUI/Menu/MenuOptions" groups=[

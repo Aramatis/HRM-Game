@@ -19,3 +19,9 @@ script = ExtResource( 3 )
 script = ExtResource( 4 )
 
 [node name="SpawnerSystem" parent="World/EnemyController" index="0" instance=ExtResource( 6 )]
+
+[node name="LevelGui" parent="." index="1"]
+margin_left = 0.400002
+margin_top = 0.200001
+margin_right = 0.400024
+margin_bottom = 0.200012

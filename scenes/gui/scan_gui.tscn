@@ -6,9 +6,6 @@
 [ext_resource path="res://scripts/gui/MainMenu/scan_gui.gd" type="Script" id=4]
 [ext_resource path="res://assets/theme/game_theme.tres" type="Theme" id=5]
 
-
-
-
 [node name="ScanGui" type="VBoxContainer"]
 margin_left = 100.0
 margin_top = 15.0
@@ -24,7 +21,7 @@ __meta__ = {
 }
 clock_scan_message = "Scan progress"
 clock_waiting_message = "Waiting for server"
-done_subtitle = "Select your device from the ones below or start a new scan"
+done_subtitle = "Click your device to start the game or start a new scan"
 done_title = "Scan finished"
 progress_subtitle = "Please wait until the scan ends to select your device"
 progress_title = "Scan in progress"
