@@ -73,8 +73,11 @@ func _ready() -> void:
 		self, "_ignore_hrm_ready", "update_hr", "_handle_hrm_error"
 	)
 	level_gui.connect("valence_change", self, "_update_valence")
-	# Capture the user's mouse
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	# Show user's mouse while the introduction screen is on
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	# Pause the game while the introduction screen is on
+	get_tree().paused = true
+	_paused = true
 
 
 # Called when an input is given by the user
@@ -110,6 +113,11 @@ func start() -> void:
 		_end_timer.start()
 		_adjust_timer.start()
 		level_gui.set_active(true)
+		# Capture the user's mouse
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		# Unpause the game
+		get_tree().paused = false
+		_paused = false
 
 
 # Ends the level
@@ -216,20 +224,22 @@ func _full_entry(moment: String) -> void:
 
 # Handles any level wide effects of the main action
 func _on_main_pressed() -> void:
-	if not _paused:
+	if _started and not _paused:
 		get_tree().call_group("controllers", "main_used")
+	elif not _started:
+		start()
 
 
 # Handles any level wide effects of the secondary action
 func _on_secondary_pressed() -> void:
-	if not _paused:
+	if _started and not _paused:
 		get_tree().call_group("controllers", "secondary_used")
 
 
 # Handles any level wide effects of a bonus press, raises the multiplier if a
 # bonus can be used by default
 func _on_bonus_pressed() -> void:
-	if not _paused:
+	if _started and not _paused:
 		var used = level_gui.apply_bonus()
 		if used:
 			get_tree().call_group("controllers", "bonus_used")
@@ -238,13 +248,14 @@ func _on_bonus_pressed() -> void:
 
 # Handles the pausing of the level
 func _on_pause_pressed() -> void:
-	if _paused:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-		level_gui.hide_pause()
-		get_tree().paused = false
-		_paused = false
-	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		level_gui.show_pause()
-		get_tree().paused = true
-		_paused = true
+	if _started:
+		if _paused:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			level_gui.hide_pause()
+			get_tree().paused = false
+			_paused = false
+		else:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			level_gui.show_pause()
+			get_tree().paused = true
+			_paused = true

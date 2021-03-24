@@ -5,9 +5,11 @@
 
 [node name="ScorePanel" type="Control"]
 pause_mode = 1
-anchor_right = 0.125
+anchor_right = 0.11
 anchor_bottom = 0.125
-rect_min_size = Vector2( 160, 42 )
+margin_right = -0.800003
+margin_bottom = 7.62939e-06
+rect_min_size = Vector2( 141, 42 )
 mouse_filter = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -23,7 +25,6 @@ anchor_right = 0.4
 anchor_bottom = 0.5
 margin_right = 0.199989
 text = "Score: "
-align = 2
 valign = 1
 __meta__ = {
 "_edit_lock_": true,
@@ -31,10 +32,11 @@ __meta__ = {
 }
 
 [node name="PointsLabel" type="Label" parent="."]
-anchor_left = 0.43
 anchor_right = 1.0
 anchor_bottom = 0.5
+grow_horizontal = 0
 text = "0"
+align = 2
 valign = 1
 __meta__ = {
 "_edit_lock_": true,
@@ -46,8 +48,7 @@ anchor_top = 0.5
 anchor_right = 0.6
 anchor_bottom = 1.0
 margin_right = 3.0
-text = "Multiplier: x"
-align = 2
+text = "Multiplier: "
 valign = 1
 __meta__ = {
 "_edit_lock_": true,
@@ -61,7 +62,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -0.200012
 margin_right = -1.52588e-05
+grow_horizontal = 0
 text = "1"
+align = 2
 valign = 1
 __meta__ = {
 "_edit_lock_": true,
