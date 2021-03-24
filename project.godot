@@ -82,6 +82,7 @@ config/icon="res://art/icon/icon.png"
 [autoload]
 
 settings="*res://scripts/autoload/settings.gd"
+scene_switcher="*res://scripts/autoload/scene_switcher.gd"
 heart_connector="*res://scripts/autoload/heart_connector.gd"
 logger="*res://scripts/autoload/logger.gd"
 

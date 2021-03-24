@@ -91,14 +91,22 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	_acc_delta += delta
 	if _acc_delta >= input_sample_delay:
+		var previous_slider_val = _slider.value
 		if Input.is_action_pressed("valence_up"):
 			_slider.value += 1
-			emit_signal("valence_increased")
+			if not is_equal_approx(previous_slider_val, _slider.value):
+				emit_signal("valence_increased")
 			_acc_delta = 0.0
 		if Input.is_action_pressed("valence_down"):
 			_slider.value -= 1
-			emit_signal("valence_decreased")
+			if not is_equal_approx(previous_slider_val, _slider.value):
+				emit_signal("valence_decreased")
 			_acc_delta = 0.0
+
+
+# Changes the valence on the slider, without sending signals
+func change_valence(slider_delta: int) -> void:
+	_slider.value += slider_delta
 
 
 # Change both colors representing valence

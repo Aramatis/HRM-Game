@@ -11,10 +11,10 @@ signal start_requested
 
 # The texture to display in the panel when it's hidden
 const HiddenTexture: StreamTexture = \
-		preload("res://art/textures/gui/transparent_panel/transparent.png")
+	preload("res://art/textures/gui/transparent_panel/transparent.png")
 # The texture to display in the panel when it's shown
 const PanelTexture: StreamTexture = \
-		preload("res://art/textures/gui/transparent_panel/panel.png")
+	preload("res://art/textures/gui/transparent_panel/panel.png")
 
 # * Variables
 
@@ -26,6 +26,8 @@ var _non_panel_nodes: Array
 var _panel: NinePatchRect
 # The scan gui node
 var _scan_gui: Control
+# Survey node
+var _survey: Control
 
 # * Functions
 
@@ -36,6 +38,7 @@ func _ready() -> void:
 	$Menu/MenuOptions/Scan.grab_focus()
 	_scan_gui = $Menu/ScanGui
 	_panel = $Menu/Separator
+	_survey = $InitialSurvey
 	_non_panel_nodes = $Menu.get_children()
 	_non_panel_nodes.erase(_panel)
 	_non_panel_nodes.erase(_scan_gui)
@@ -142,6 +145,12 @@ func _show_settings() -> void:
 	menu.set_return_name("Main Menu")
 	menu.set_return_hook(self, "_hide_settings")
 	_show_panel()
+
+
+# Starts the survey previous to the game
+func _start_survey() -> void:
+	$Menu.hide()
+	_survey.show()
 
 
 # Sends a signal to start the game

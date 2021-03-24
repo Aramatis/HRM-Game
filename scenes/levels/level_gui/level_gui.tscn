@@ -14,12 +14,12 @@
 [ext_resource path="res://art/keys/D-Key.png" type="Texture" id=12]
 [ext_resource path="res://art/keys/S-Key.png" type="Texture" id=13]
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=1]
 flags = 4
 atlas = ExtResource( 10 )
 region = Rect2( 0, 5, 32, 27 )
 
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="AtlasTexture" id=2]
 flags = 4
 atlas = ExtResource( 12 )
 region = Rect2( 0, 5, 32, 27 )
@@ -189,7 +189,7 @@ size_flags_stretch_ratio = 0.5
 [node name="ValenceDown" parent="IntroLayer/Panel/PanelLayout/DefaultButtons" instance=ExtResource( 9 )]
 margin_bottom = 174.0
 button_text = "Keep pressed to change your mood down and start a bonus charge"
-button_texture = SubResource( 2 )
+button_texture = SubResource( 1 )
 
 [node name="PauseButton" parent="IntroLayer/Panel/PanelLayout/DefaultButtons" instance=ExtResource( 9 )]
 margin_left = 391.0
@@ -202,7 +202,7 @@ margin_left = 782.0
 margin_right = 1165.0
 margin_bottom = 174.0
 button_text = "Keep pressed to change your mood up and start a bonus charge"
-button_texture = SubResource( 1 )
+button_texture = SubResource( 2 )
 
 [node name="LevelButtons" type="HBoxContainer" parent="IntroLayer/Panel/PanelLayout"]
 margin_top = 387.0

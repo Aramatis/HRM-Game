@@ -35,10 +35,7 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-location = 2
-vertical = false
 input_sample_delay = 0.3
-scale_ponderator = 1.0
 
 [node name="GradSprite" type="TextureRect" parent="."]
 light_mask = 2

@@ -131,7 +131,9 @@ func end() -> void:
 
 # Retrieves the important data of the level
 func retrieve_data() -> Dictionary:
+	var is_menu := false
 	return {
+		"menu": is_menu,
 		"base_diff": base_local_difficulty,
 		"target_diff": target_local_difficulty,
 		"current_diff": current_difficulty,
