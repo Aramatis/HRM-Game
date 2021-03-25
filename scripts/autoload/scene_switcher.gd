@@ -6,6 +6,7 @@ extends Node
 const _path_prefix := "res://scenes/levels/%s"
 var _path: String
 var _next_scene
+var _prev_scene
 var _next_state: Dictionary
 var _path_list: PoolStringArray
 var _path_number: int
@@ -39,6 +40,7 @@ func scene_change() -> void:
 	_path_number += 1
 	_path_number %= _path_list.size()
 	_path = _path_prefix % _path_list[_path_number]
+	_path += ".tscn"
 	_preload_scene()
 	_load_scene()
 
@@ -53,7 +55,7 @@ func connect_current_scene() -> void:
 
 # Preloads the scene in the given path
 func _preload_scene() -> void:
-	_next_scene = ResourceLoader.load(_path)
+	_next_scene = load(_path)
 
 
 # Loads an already preloaded scene, returning the given path
@@ -65,15 +67,21 @@ func _load_scene() -> String:
 
 # Frees the current scene when it's safe
 func _deferred_load() -> void:
-	var _current_scene = get_tree().get_current_scene()
-	_current_scene.free()
-	var next_scene = _next_scene.instance()
-	get_tree().set_current_scene(next_scene)
-	_load_previous_state(next_scene)
-	next_scene.connect(
-		"level_finished", self, "scene_change", [], Object.CONNECT_ONESHOT
+	_prev_scene = get_tree().get_current_scene()
+	get_tree().change_scene_to(_next_scene)
+
+
+# Finished the loading of a scene after changing
+func finish_load(node: Node) -> void:
+	node.call_deferred(
+		"connect",
+		"level_finished",
+		self,
+		"scene_change",
+		[],
+		Object.CONNECT_ONESHOT
 	)
-	next_scene.start()
+	_load_previous_state(node)
 
 
 # Retrieves the state of the current scene
@@ -104,4 +112,4 @@ func _retrieve_state() -> Dictionary:
 # Loads the saved state from a previous scene
 func _load_previous_state(scene) -> void:
 	if not _next_state.empty():
-		scene.set_start(_next_state)
+		scene.call_deferred("set_start", _next_state)

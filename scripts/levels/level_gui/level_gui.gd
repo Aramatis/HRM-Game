@@ -48,6 +48,25 @@ func _ready() -> void:
 	set_slider_location(slider_location)
 	set_bonus_location(bonus_location)
 	set_score_location(score_location)
+	show_intro_layer()
+
+
+# Shows the introduction layer
+func show_intro_layer() -> void:
+	if _intro_layer:
+		_intro_layer.set_layer(20)
+
+
+# Hides the introduction layer
+func hide_intro_layer() -> void:
+	if _intro_layer:
+		_intro_layer.set_layer(-20)
+
+
+# Sets the initial valence for the slider
+func set_initial_valence(valence: float) -> void:
+	print("initial valence: " + str(valence))
+	_slider.change_valence(valence)
 
 
 # Sets the variable slider_location to the given value
@@ -111,6 +130,7 @@ func set_active(on: bool) -> void:
 	active = on
 	_score.set_active(on)
 	if _intro_layer:
+		hide_intro_layer()
 		remove_intro()
 
 
@@ -166,12 +186,12 @@ func set_bonus_load_spd(spd: float) -> void:
 
 # Returns the current load speed for the bonus
 func get_score_spd() -> float:
-	return _score.get_score_speed()
+	return _score.get_score_spd()
 
 
 # Sets a new load speed for the bonus
 func set_score_spd(spd: float) -> void:
-	_score.set_score_speed(spd)
+	_score.set_score_spd(spd)
 
 
 # Sets the text of a variable in the intro screen

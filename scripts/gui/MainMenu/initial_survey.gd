@@ -43,7 +43,7 @@ func _change_page() -> void:
 
 # Sets the first answer
 func _first_answer(valence: float, arousal: float) -> void:
-	_start_valence = valence
+	_start_valence = valence / 2
 	_start_arousal = arousal
 	_survey1.get_node("Question1").hide()
 	_survey1.get_node("MoodButtons1").hide()
@@ -60,7 +60,7 @@ func _second_answer(valence: float, arousal: float) -> void:
 	else:
 		scene_switcher.set_path_mode(1)
 	_set_slider_pause(false)
-	_slider.change_valence(_start_valence - 10)
+	_slider.change_valence(_start_valence)
 	_change_page()
 
 
@@ -81,8 +81,8 @@ func save_data() -> void:
 
 
 # Handles a change in the slider
-func _slider_change(delta: int) -> void:
-	_start_valence += delta
+func _slider_change(delta: float) -> void:
+	_start_valence += (delta / 2)
 
 
 # Pauses the slider processing: if pause is true, pauses

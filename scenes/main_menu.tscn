@@ -194,10 +194,10 @@ script = ExtResource( 3 )
 
 [node name="ScanGui" parent="GUI/Menu" instance=ExtResource( 9 )]
 visible = false
-margin_left = 120.0
-margin_top = 163.908
-margin_right = 920.0
-margin_bottom = 375.908
+margin_left = 0.0
+margin_top = 348.0
+margin_right = 1040.0
+margin_bottom = 560.0
 
 [node name="InitialSurvey" type="HBoxContainer" parent="GUI"]
 visible = false
@@ -498,6 +498,8 @@ __meta__ = {
 
 [node name="AffectiveSlider" parent="GUI/InitialSurvey/Survey2/Slider/SliderContainer" instance=ExtResource( 17 )]
 rect_scale = Vector2( 1.2, 1.2 )
+location = 2
+vertical = false
 scale_ponderator = 1.2
 
 [node name="ValenceUpKey" type="TextureRect" parent="GUI/InitialSurvey/Survey2/Slider"]
@@ -560,6 +562,9 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.0
 
 [node name="ChangePage" type="Tween" parent="GUI/InitialSurvey"]
+[connection signal="exit_requested" from="GUI" to="." method="exit_game"]
+[connection signal="request_hr" from="GUI" to="." method="config_hr"]
+[connection signal="start_requested" from="GUI" to="." method="start_game"]
 [connection signal="quit_pressed" from="GUI/Menu/MenuOptions" to="GUI" method="_quit_game"]
 [connection signal="scan_pressed" from="GUI/Menu/MenuOptions" to="GUI" method="_show_scan"]
 [connection signal="settings_pressed" from="GUI/Menu/MenuOptions" to="GUI" method="_show_settings"]
@@ -568,14 +573,15 @@ size_flags_stretch_ratio = 0.0
 [connection signal="pressed" from="GUI/Menu/MenuOptions/Start" to="GUI/Menu/MenuOptions" method="_on_start_pressed"]
 [connection signal="pressed" from="GUI/Menu/MenuOptions/Settings" to="GUI/Menu/MenuOptions" method="_on_settings_pressed"]
 [connection signal="pressed" from="GUI/Menu/MenuOptions/Quit" to="GUI/Menu/MenuOptions" method="_on_quit_pressed"]
+[connection signal="device_ready" from="GUI/Menu/ScanGui" to="GUI" method="_prepare_start"]
 [connection signal="data_set" from="GUI/InitialSurvey" to="." method="_set_data"]
-[connection signal="start_pressed" from="GUI/InitialSurvey" to="." method="start_game"]
+[connection signal="start_pressed" from="GUI/InitialSurvey" to="GUI" method="_start_game"]
 [connection signal="pressed" from="GUI/InitialSurvey/Survey1/MoodButtons1/LowValence/Angry" to="GUI/InitialSurvey" method="_first_answer" flags=6 binds= [ 5.0, 8.0 ]]
 [connection signal="pressed" from="GUI/InitialSurvey/Survey1/MoodButtons1/LowValence/Bored" to="GUI/InitialSurvey" method="_first_answer" flags=6 binds= [ 5.0, 2.0 ]]
 [connection signal="pressed" from="GUI/InitialSurvey/Survey1/MoodButtons1/HighValence/Excited" to="GUI/InitialSurvey" method="_first_answer" flags=6 binds= [ 15.0, 8.0 ]]
 [connection signal="pressed" from="GUI/InitialSurvey/Survey1/MoodButtons1/HighValence/Relaxed" to="GUI/InitialSurvey" method="_first_answer" binds= [ 15.0, 2.0 ]]
 [connection signal="pressed" from="GUI/InitialSurvey/Survey1/MoodButtons2/HighValence/Excited" to="GUI/InitialSurvey" method="_second_answer" flags=6 binds= [ 15.0, 8.0 ]]
 [connection signal="pressed" from="GUI/InitialSurvey/Survey1/MoodButtons2/HighValence/Relaxed" to="GUI/InitialSurvey" method="_second_answer" binds= [ 15.0, 2.0 ]]
-[connection signal="valence_decreased" from="GUI/InitialSurvey/Survey2/Slider/SliderContainer/AffectiveSlider" to="GUI/InitialSurvey" method="_slider_change" binds= [ -1 ]]
-[connection signal="valence_increased" from="GUI/InitialSurvey/Survey2/Slider/SliderContainer/AffectiveSlider" to="GUI/InitialSurvey" method="_slider_change" binds= [ 1 ]]
-[connection signal="pressed" from="GUI/InitialSurvey/Survey2/StartButton/StartGame" to="GUI" method="_start_game"]
+[connection signal="valence_decreased" from="GUI/InitialSurvey/Survey2/Slider/SliderContainer/AffectiveSlider" to="GUI/InitialSurvey" method="_slider_change" binds= [ -1.0 ]]
+[connection signal="valence_increased" from="GUI/InitialSurvey/Survey2/Slider/SliderContainer/AffectiveSlider" to="GUI/InitialSurvey" method="_slider_change" binds= [ 1.0 ]]
+[connection signal="pressed" from="GUI/InitialSurvey/Survey2/StartButton/StartGame" to="GUI/InitialSurvey" method="_start_game_pressed"]

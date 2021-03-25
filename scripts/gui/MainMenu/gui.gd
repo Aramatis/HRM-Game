@@ -1,3 +1,4 @@
+# * Signals
 extends Control
 
 # * Signals
@@ -6,6 +7,8 @@ extends Control
 signal exit_requested
 # Thrown to request start of the game
 signal start_requested
+# Thrown to request start of hr updates
+signal request_hr
 
 # * Constants
 
@@ -97,6 +100,7 @@ func _prepare_start() -> void:
 	_clean_panel()
 	$Menu/MenuOptions.hide_scan()
 	$Menu/MenuOptions.show_start()
+	emit_signal("request_hr")
 
 
 # Sends a signal to exit the game

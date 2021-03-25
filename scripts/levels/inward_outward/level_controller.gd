@@ -50,10 +50,10 @@ func update_hr(tick: int) -> void:
 			* extra_progress
 		)
 		hr_target_progress = 1.0
-	level_gui.set_bonus_load_speed(
+	level_gui.set_bonus_load_spd(
 		1.0 + (hr_target_progress * bonus_adjustment) + extra_bonus_speed
 	)
-	level_gui.set_score_speed(
+	level_gui.set_score_spd(
 		1.0 + (hr_target_progress * score_adjustment) + extra_score_speed
 	)
 

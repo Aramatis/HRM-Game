@@ -75,6 +75,7 @@ func _ready() -> void:
 	level_gui.connect("valence_change", self, "_update_valence")
 	# Show user's mouse while the introduction screen is on
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	scene_switcher.finish_load(self)
 	# Pause the game while the introduction screen is on
 	get_tree().paused = true
 	_paused = true
@@ -95,11 +96,12 @@ func _unhandled_input(event) -> void:
 # Sets the initial values to start the level
 func set_start(dict: Dictionary) -> void:
 	base_valence = dict["current_val"]
+	print("base valence: " + str(base_valence))
 	current_valence = base_valence
 	base_local_difficulty = dict["base_diff"]
 	current_difficulty = base_local_difficulty
 	target_local_difficulty = dict["target_diff"]
-	update_hr(int(dict["current_hr"]))
+	_heart_rates.append(int(dict["current_hr"]) * 1.0)
 	var step_amount = total_time / adjust_time
 	_diff_step = (target_local_difficulty - base_local_difficulty) / step_amount
 
@@ -117,6 +119,7 @@ func start() -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		# Unpause the game
 		get_tree().paused = false
+		level_gui.set_initial_valence(base_valence)
 		_paused = false
 
 

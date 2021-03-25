@@ -5,6 +5,7 @@ signal level_finished
 
 # * Functions
 var _data: Dictionary
+var level_name := "main_menu"
 
 
 # Called when the node enters the scene tree for the first time.
@@ -12,13 +13,12 @@ func _ready() -> void:
 	scene_switcher.connect_current_scene()
 	_data = {}
 	_data["current_hr"] = -1.0
-	heart_connector.register_hrm(
-		self, "_hr_placeholder", "update_hr", "_hr_placeholder"
-	)
 
 
 # Returns the configured data
 func retrieve_data() -> Dictionary:
+	print("Data retrieved:")
+	print(_data)
 	return _data
 
 
@@ -33,9 +33,16 @@ func start_game() -> void:
 
 
 # Returns the configured data
-func _set_data(data: Dictionary):
+func _set_data(data: Dictionary) -> void:
 	data["current_hr"] = _data["current_hr"]
 	_data = data
+
+
+# Configures hr updates
+func config_hr() -> void:
+	heart_connector.register_hrm(
+		self, "_hr_placeholder", "update_hr", "_hr_placeholder"
+	)
 
 
 # Adjusts the current hr

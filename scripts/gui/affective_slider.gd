@@ -105,8 +105,8 @@ func _process(delta: float) -> void:
 
 
 # Changes the valence on the slider, without sending signals
-func change_valence(slider_delta: int) -> void:
-	_slider.value += slider_delta
+func change_valence(slider_pos: float) -> void:
+	_slider.value = (slider_pos * 2)
 
 
 # Change both colors representing valence
