@@ -30,9 +30,9 @@ func set_path_mode(mode: int) -> void:
 	if (mode == 0) or (mode == 1):
 		_path_list = _ref_path_list
 		if mode == 1:
-			var aux := _path_list[0]
-			_path_list[0] = _path_list[1]
-			_path_list[1] = aux
+			var aux := _path_list[1]
+			_path_list[1] = _path_list[2]
+			_path_list[2] = aux
 
 
 # Sets the scene change to start

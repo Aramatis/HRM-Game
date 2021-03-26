@@ -9,6 +9,7 @@
 
 [node name="LevelController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+hr_variance_target = 0.8
 
 [node name="PlayerController" parent="World" index="1"]
 script = ExtResource( 3 )
